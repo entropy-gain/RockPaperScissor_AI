@@ -53,8 +53,6 @@ rock-paper-scissors-ai/          # Root directory
 
 - **feature/xxx** - New features or enhancements
 - **bugfix/xxx** - Bug fixes
-- **hotfix/xxx** - Critical hotfixes for production
-- **refactor/xxx** - Code refactoring without changing functionality
 - **docs/xxx** - Documentation updates
 
 #### Git Workflow
