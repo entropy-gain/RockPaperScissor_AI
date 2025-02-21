@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is an AI-powered Rock Paper Scissors game that utilizes various machine learning models to predict and counter player moves. The backend is built with FastAPI and deployed via AWS Lambda, while the frontend is developed using Vue.js/React.
+This project is an AI-powered Rock Paper Scissors game that utilizes various machine learning models to predict and counter player moves. The backend is built with FastAPI and deployed via AWS Lambda, while the frontend is developed using HTML.
 
 ## Project Structure
  
@@ -45,3 +45,4 @@ rock-paper-scissors-ai/          # Root directory
 │── requirements.txt             # Exported Lambda dependencies from Poetry
 │── lambda.zip                   # Packaged ZIP file for AWS Lambda deployment
 │── README.md                    # Documentation
+
