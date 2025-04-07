@@ -1,0 +1,38 @@
+2025-04-01 22:59:11,100 - RockPaperScissor.routes.game - ERROR - Error processing game: GameService.play_game() got an unexpected keyword argument 'session_id'
+2025-04-01 22:59:20,394 - RockPaperScissor.routes.game - ERROR - Error processing game: GameService.play_game() got an unexpected keyword argument 'session_id'
+2025-04-01 23:01:38,497 - RockPaperScissor.routes.game - ERROR - Error processing game: GameService.play_game() got an unexpected keyword argument 'session_id'
+2025-04-01 23:04:38,597 - RockPaperScissor.routes.game - ERROR - Error processing game: GameService.play_game() got an unexpected keyword argument 'session_id'
+2025-04-01 23:13:44,750 - RockPaperScissor - ERROR - Error processing game: GameService.play_game() got an unexpected keyword argument 'session_id'
+2025-04-01 23:13:44,750 - RockPaperScissor - ERROR - Error processing game: GameService.play_game() got an unexpected keyword argument 'session_id'
+2025-04-01 23:13:44,750 - RockPaperScissor - ERROR - Error processing game: GameService.play_game() got an unexpected keyword argument 'session_id'
+2025-04-01 23:13:44,750 - RockPaperScissor - ERROR - Error processing game: GameService.play_game() got an unexpected keyword argument 'session_id'
+2025-04-06 23:45:48,053 - RockPaperScissor - ERROR - Error in play_game: 'NoneType' object is not subscriptable
+2025-04-06 23:49:50,211 - RockPaperScissor - ERROR - Error in play_game: 'NoneType' object is not subscriptable
+2025-04-07 01:29:53,252 - RockPaperScissor - ERROR - Error getting latest game in session 971c31b1-f77e-40fb-867b-989dfd2fabc9: Could not connect to the endpoint URL: "http://localhost:8000/"
+2025-04-07 01:29:53,252 - RockPaperScissor - ERROR - Error getting latest game in session 971c31b1-f77e-40fb-867b-989dfd2fabc9: Could not connect to the endpoint URL: "http://localhost:8000/"
+2025-04-07 01:30:18,871 - RockPaperScissor - ERROR - Error creating new round: Could not connect to the endpoint URL: "http://localhost:8000/"
+2025-04-07 01:30:18,871 - RockPaperScissor - ERROR - Error creating new round: Could not connect to the endpoint URL: "http://localhost:8000/"
+2025-04-07 01:30:59,172 - RockPaperScissor - ERROR - Error getting latest game in session 138696ee-6b00-43b4-bbef-f0b16b4b1ddf: Could not connect to the endpoint URL: "http://localhost:8001/"
+2025-04-07 01:30:59,172 - RockPaperScissor - ERROR - Error getting latest game in session 138696ee-6b00-43b4-bbef-f0b16b4b1ddf: Could not connect to the endpoint URL: "http://localhost:8001/"
+2025-04-07 01:31:24,799 - RockPaperScissor - ERROR - Error creating new round: Could not connect to the endpoint URL: "http://localhost:8001/"
+2025-04-07 01:31:24,799 - RockPaperScissor - ERROR - Error creating new round: Could not connect to the endpoint URL: "http://localhost:8001/"
+2025-04-07 01:37:10,265 - RockPaperScissor - ERROR - Error getting latest game in session 397840cd-c662-4134-b35e-9e46df7c9ca1: An error occurred (ResourceNotFoundException) when calling the Query operation: Cannot do operations on a non-existent table
+2025-04-07 01:37:10,265 - RockPaperScissor - ERROR - Error getting latest game in session 397840cd-c662-4134-b35e-9e46df7c9ca1: An error occurred (ResourceNotFoundException) when calling the Query operation: Cannot do operations on a non-existent table
+2025-04-07 01:37:10,272 - RockPaperScissor - ERROR - Error creating new round: An error occurred (ResourceNotFoundException) when calling the PutItem operation: Cannot do operations on a non-existent table
+2025-04-07 01:37:10,272 - RockPaperScissor - ERROR - Error creating new round: An error occurred (ResourceNotFoundException) when calling the PutItem operation: Cannot do operations on a non-existent table
+2025-04-07 01:53:44,730 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 01:53:44,730 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:00:03,380 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:00:03,380 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:01:37,042 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:01:37,042 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:25:43,595 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:25:43,595 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:26:01,841 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:26:01,841 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:27:13,346 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:27:13,346 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:29:55,814 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:29:55,814 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:31:22,637 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 02:31:22,637 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
