@@ -7,44 +7,77 @@ This project is an AI-powered Rock Paper Scissors game that utilizes various mac
 ### Project Structure
  
 ```plaintext
-rock-paper-scissors-ai/          # Root directory
-│── rock_paper_scissors_ai/      # Python package (matches pyproject.toml name)
-│   ├── __init__.py              # Marks this as a Python package
-│   ├── app.py                   # FastAPI entry point, handles API requests via Lambda
-│   ├── models/                  # AI-related models
-│   │   ├── __init__.py          # Marks this as a Python package
-│   │   ├── base_ai.py           # AI base class
-│   │   ├── random_ai.py         # Random strategy AI
-│   │   ├── pattern_ai.py        # Pattern-based AI (history-based prediction)
-│   │   ├── markov_ai.py         # Markov Chain AI
-│   │   ├── memm_ai.py           # Maximum Entropy Markov Chain AI
-│   │   ├── crf_ai.py            # Conditional Random Field AI
-│   │   ├── rl_ai.py             # Reinforcement Learning AI
-│   ├── database/                # Database operations
-│   │   ├── __init__.py          # Marks this as a Python package
-│   │   ├── db.py                # Connects to AWS DynamoDB and handles queries
-│   ├── schemas/                 # Pydantic models for request/response validation
-│   │   ├── __init__.py          # Marks this as a Python package
-│   │   ├── game.py              # Game-related schemas (GameRequest, GameResponse)
-│   ├── routes/                  # FastAPI routes
-│   │   ├── __init__.py          # Marks this as a Python package
-│   │   ├── game.py              # Handles game logic API
-│   │   ├── history.py           # Handles game history API
-│   │   ├── stats.py             # Handles win/loss stats API
-│── lambda_package/              # AWS Lambda runtime environment (not necessary)
-│── frontend/                    # Frontend project
-│   ├── public/                  # Static assets
-│   ├── src/                     # Vue.js/React source code
-│── deploy/                      # Deployment scripts
-│   ├── deploy_lambda.sh         # Deploys AWS Lambda
-│   ├── deploy_frontend.sh       # Deploys frontend to S3
-│   ├── terraform/               # Infrastructure as code (AWS resource management)
-│   │   ├── main.tf              # Terraform configuration for AWS resources
-│── pyproject.toml               # Poetry dependency management
-│── poetry.lock                  # Dependency lock file
-│── requirements.txt             # Exported Lambda dependencies from Poetry
-│── lambda.zip                   # Packaged ZIP file for AWS Lambda deployment
-│── README.md                    # Documentation
+RockPaperScissor/
+├── RockPaperScissor/              # Main application package
+│   ├── __init__.py
+│   ├── app.py                     # Main application entry point
+│   │
+│   ├── services/                  # Server logic layer
+│   │   ├── __init__.py
+│   │   ├── game_service.py        # Game-related server logic
+│   │
+│   ├── repositories/              # Data access layer
+│   │   ├── __init__.py
+│   │   ├── db.py                  # Database connection
+│   │   ├── game_repository.py     # Game data access
+│   │
+│   ├── models/                    # AI models
+│   │   ├── __init__.py
+│   │   ├── base_ai.py             # AI base class
+│   │   ├── random_ai.py           # Random strategy AI
+│   │   ├── pattern_ai.py          # Pattern strategy AI
+│   │   └── ...
+│   │
+│   ├── schemas/                   # Data validation schemas
+│   │   ├── __init__.py
+│   │   ├── game.py                # Game-related schemas
+│   │
+│   ├── routes/                    # API routes
+│   │   ├── __init__.py
+│   │   ├── stats.py                # User-related routes
+│   │   ├── game.py                # Game-related routes
+│   │
+│   ├── utils/                     # Utilities
+│       ├── __init__.py
+│       ├── logging.py             # Logging configuration
+│
+├── frontend/                      # Frontend project
+│   ├── index.html                 # Main HTML entry page
+│   ├── webpage.html               # Secondary HTML page
+│
+├── deploy/                        # All deployment resources
+│   ├── lambda/                    # Lambda deployment resources
+│   │   ├── package/               # Lambda package content
+│   │   └── deploy_lambda.sh       # Lambda deployment script
+│   │
+│   ├── frontend/                  # Frontend deployment
+│   │   └── deploy_frontend.sh     # Frontend deployment script
+│   │
+│   ├── terraform/                 # Infrastructure as code
+│   │   ├── main.tf                # Main Terraform configuration
+│   │   ├── variables.tf           # Terraform variables
+│   │   └── outputs.tf             # Terraform outputs
+│   │
+│   └── scripts/                   # Utility deployment scripts
+│       └── setup_aws_resources.sh # Script to initialize resources
+│
+├── config/                        # Configuration files
+│
+├── tests/                         # Test suite
+│   ├── unit/                      # Unit tests
+│   │   ├── services/              # Service tests
+│   │   ├── repositories/          # Repository tests
+│   │   └── models/                # Model tests
+│   │
+│   └── integration/               # Integration tests
+│       └── api/                   # API tests
+│
+├── pyproject.toml                 # Poetry dependency management
+├── poetry.lock                    # Dependency lock file
+├── requirements.txt               # For Lambda dependencies
+├── .gitignore                     # Git ignore file
+├── README.md                      # Documentation
+└── .devcontainer                  # Container
 ```
 
 ### Git Workflow and Best Practices
