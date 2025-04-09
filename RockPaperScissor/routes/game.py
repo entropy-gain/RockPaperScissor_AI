@@ -1,45 +1,13 @@
 # backend/routes/game.py
 from fastapi import APIRouter, HTTPException
 from RockPaperScissor.services import GameService
-from RockPaperScissor.schemas.game import GameRequest, GameResponse, NewGameResponse
+from RockPaperScissor.schemas.game import GameRequest, GameResponse
 from RockPaperScissor.utils.logging import setup_logging
 
 # Set up logger
 logger = setup_logging()
 
 game_router = APIRouter()
-
-@game_router.post("/start")
-async def start_new_round(request: GameRequest):
-    """
-    Start a new round in a session.
-    """
-    try:
-        # Log the request
-        logger.info(f"New round request: {request.model_dump()}")
-
-        # Create service instance
-        game_service = GameService()
-        
-        # Call service method to start a new round
-        result = game_service.start_new_round(
-            session_id=request.session_id,
-            user_id=request.user_id,
-            ai_type=request.ai_type
-        )
-        
-        # Return new game information
-        return NewGameResponse(
-            game_id=result['game_id'],
-            session_id=result['session_id']
-        )
-    
-    except Exception as e:
-        logger.error(f"Error starting new round: {str(e)}")
-        raise HTTPException(
-            status_code=500,
-            detail="An error occurred while starting a new round"
-        )
     
 @game_router.post("/play")
 async def play_round(request: GameRequest):
@@ -52,22 +20,12 @@ async def play_round(request: GameRequest):
 
         # Create service instance
         game_service = GameService()
-        
+
         # Call service method to play the round
-        result = game_service.play_round(
-            game_id=request.game_id,
-            player_move=request.user_move
-        )
+        result = game_service.play_round(request)
         
         # Convert service result to response model
-        return GameResponse(
-            game_id=result['game_id'],
-            session_id=result['session_id'],
-            user_move=result['player_move'],
-            ai_move=result['ai_move'],
-            result=result['result'],
-            session_stats=result['session_stats']
-        )
+        return result
     
     except ValueError as e:
         logger.error(f"Invalid request: {str(e)}")

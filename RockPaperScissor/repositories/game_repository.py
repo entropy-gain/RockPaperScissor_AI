@@ -8,6 +8,8 @@ import numpy as np
 from boto3.dynamodb.conditions import Key
 from ..utils.logging import setup_logging
 from .db import get_dynamodb_resource, create_tables_if_not_exist
+from ..schemas.game import GameRequest, GameResponse, GameData
+
 
 logger = setup_logging()
 
@@ -19,143 +21,87 @@ class GameRepository:
         self.dynamodb = get_dynamodb_resource()
         self.games_table = self.dynamodb.Table('RockPaperScissor_Games')
     
-    def create_new_round(self, session_id: Optional[str] = None, 
-                         user_id: Optional[str] = None, 
-                         ai_type: str = 'adaptive') -> Dict[str, Any]:
+    
+    
+    def save_game(self, game_data: GameData) -> bool:
         """
-        Create a new round in a session.
+        Save or update a game in DynamoDB.
         
         Args:
-            session_id: Existing session ID or None for new session
-            user_id: User identifier (anonymous if None)
-            ai_type: Type of AI to use
-            
-        Returns:
-            Dictionary with game_id and session_id
-        """
-        game_id = str(uuid.uuid4())
-        timestamp = int(time.time())
-        
-        # If no session_id provided, create a new one
-        if not session_id:
-            session_id = str(uuid.uuid4())
-            
-        # Get previous game in session for model state, if any
-        previous_game = self._get_latest_game_in_session(session_id)
-        
-        # Initialize model state based on previous game or default
-        if previous_game:
-            # Use previous game's model state
-            model_state = previous_game.get('model_state', {})
-        else:
-            # Initialize default model state
-            model_state = {}
-        
-        # Create new game record
-        game_item = {
-            'game_id': game_id,
-            'session_id': session_id,
-            'user_id': user_id or 'anonymous',
-            'created_at': timestamp,
-            'updated_at': timestamp,
-            'ai_type': ai_type,
-            'player_move': None,  # Will be set when player makes a move
-            'ai_move': None,      # Will be set when AI responds
-            'game_result': None,       # Will be set when round is completed
-            'model_state': self._convert_to_dynamodb_format(model_state),
-            'round_complete': False
-        }
-        
-        try:
-            self.games_table.put_item(Item=game_item)
-            logger.info(f"Created new round with game ID: {game_id} in session: {session_id}")
-            return {
-                'game_id': game_id,
-                'session_id': session_id
-            }
-        except Exception as e:
-            logger.error(f"Error creating new round: {str(e)}")
-            raise
-    
-    def get_game(self, game_id: str) -> Optional[Dict[str, Any]]:
-        """Get game details by ID."""
-        try:
-            response = self.games_table.get_item(Key={'game_id': game_id})
-            item = response.get('Item')
-            
-            if item:
-                # Convert DynamoDB format back to Python types
-                if 'model_state' in item:
-                    item['model_state'] = self._convert_from_dynamodb_format(item['model_state'])
-                
-                return item
-            return None
-        except Exception as e:
-            logger.error(f"Error retrieving game {game_id}: {str(e)}")
-            return None
-    
-    def update_round_with_player_move(self, game_id: str, player_move: str) -> bool:
-        """
-        Update a round with the player's move.
-        
-        Args:
-            game_id: The game ID
-            player_move: Player's move (rock, paper, scissors)
+            game_id: Unique identifier for the game
+            session_id: Session identifier
+            ai_type: Type of AI opponent
+            user_move: Player's choice (rock, paper, scissors)
+            ai_move: AI's choice (rock, paper, scissors)
+            result: Game result (player_win, ai_win, draw)
+            model_state: AI model state for learning
+            session_stats: Current session statistics
+            user_id: User identifier
             
         Returns:
             bool: Success or failure
         """
         try:
-            response = self.games_table.update_item(
-                Key={'game_id': game_id},
-                UpdateExpression="SET player_move = :move, updated_at = :time",
-                ExpressionAttributeValues={
-                    ':move': player_move,
-                    ':time': int(time.time())
-                },
-                ReturnValues="UPDATED_NEW"
-            )
+            current_time = int(time.time())
             
-            logger.info(f"Updated game {game_id} with player move: {player_move}")
+            # Convert model state and session stats to DynamoDB format
+            dynamodb_model_state = self._convert_to_dynamodb_format(game_data.model_state)
+            dynamodb_session_stats = self._convert_to_dynamodb_format(game_data.session_stats)
+            
+            # Check if the game already exists
+            response = self.games_table.get_item(
+                Key={'game_id': game_data.game_id},
+                ProjectionExpression="game_id"
+            )
+
+            if 'Item' not in response:
+                # Game doesn't exist, create a new one
+                item = {
+                    'game_id': game_data.game_id,
+                    'user_id': game_data.user_id,
+                    'session_id': game_data.session_id,
+                    'ai_type': game_data.ai_type,
+                    'user_move': game_data.user_move,
+                    'ai_move': game_data.ai_move,
+                    'game_result': game_data.result,
+                    'model_state': dynamodb_model_state,
+                    'session_stats': dynamodb_session_stats,
+                    'created_at': current_time,
+                }
+                self.games_table.put_item(Item=item)
+                logger.info(f"Created new game {game_data.game_id} for user {game_data.user_id} in session {game_data.session_id}")
+            else:
+                # Game exists, update it
+                self.games_table.update_item(
+                    Key={'game_id': game_data.game_id},
+                    UpdateExpression="SET ai_move = :ai_move, user_move = :user_move, " 
+                                    "game_result = :result, model_state = :model_state, "
+                                    "session_stats = :session_stats, session_id = :session_id, "
+                                    "user_id = :user_id, ai_type = :ai_type, created_at = :time",
+                    ExpressionAttributeValues={
+                        ':ai_move': game_data.ai_move,
+                        ':user_move': game_data.user_move,
+                        ':result': game_data.result,
+                        ':model_state': dynamodb_model_state,
+                        ':session_stats': dynamodb_session_stats,
+                        ':session_id': game_data.session_id,
+                        ':user_id': game_data.user_id,
+                        ':ai_type': game_data.ai_type,
+                        ':time': current_time
+                    },
+                    ReturnValues="UPDATED_NEW"
+                )
+                logger.info(f"Updated game {game_data.game_id} for user {game_data.user_id}")
+            
+            # No need to update session records separately as we use composite indexes
+            # (user_id, session_id, game_id) to query session-related data
+            
             return True
         except Exception as e:
-            logger.error(f"Error updating player move: {str(e)}")
+            logger.error(f"Error saving game: {str(e)}")
             return False
     
-    def complete_round(self, game_id: str, ai_move: str, result: str, model_state: Dict[str, Any]) -> bool:
-        """
-        Complete a round with AI move, result and updated model state.
-        
-        Args:
-            game_id: The game ID
-            ai_move: AI's move (rock, paper, scissors)
-            result: Result of the round (player_win, ai_win, draw)
-            model_state: Updated AI model state
-            
-        Returns:
-            bool: Success or failure
-        """
-        try:
-            response = self.games_table.update_item(
-                Key={'game_id': game_id},
-                UpdateExpression="SET ai_move = :ai_move, game_result = :game_result, model_state = :model_state, round_complete = :complete, updated_at = :time",
-                ExpressionAttributeValues={
-                    ':ai_move': ai_move,
-                    ':game_result': result,
-                    ':model_state': self._convert_to_dynamodb_format(model_state),
-                    ':complete': True,
-                    ':time': int(time.time())
-                },
-                ReturnValues="UPDATED_NEW"
-            )
-            
-            logger.info(f"Completed round {game_id} with AI move: {ai_move}, result: {result}")
-            return True
-        except Exception as e:
-            logger.error(f"Error completing round: {str(e)}")
-            return False
-    
-    def _get_latest_game_in_session(self, session_id: str) -> Optional[Dict[str, Any]]:
+    def get_latest_game_in_session(self, session_id: str) -> Optional[Dict[str, Any]]:
         """
         Get the most recent game in a session.
         
@@ -184,7 +130,24 @@ class GameRepository:
             logger.error(f"Error getting latest game in session {session_id}: {str(e)}")
             return None
     
-    def get_session_games(self, session_id: str, limit: int = 10) -> List[Dict[str, Any]]:
+    def get_game(self, game_id: str) -> Optional[Dict[str, Any]]:
+        """Get game details by ID."""
+        try:
+            response = self.games_table.get_item(Key={'game_id': game_id})
+            item = response.get('Item')
+            
+            if item:
+                # Convert DynamoDB format back to Python types
+                if 'model_state' in item:
+                    item['model_state'] = self._convert_from_dynamodb_format(item['model_state'])
+                
+                return item
+            return None
+        except Exception as e:
+            logger.error(f"Error retrieving game {game_id}: {str(e)}")
+            return None
+    
+    def get_session_games(self, session_id: str, limit: int = 100) -> List[Dict[str, Any]]:
         """
         Get recent games for a session.
         

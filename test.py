@@ -1,10 +1,26 @@
 from RockPaperScissor.services import GameService
-from RockPaperScissor.repositories import GameRepository
+from RockPaperScissor.repositories.game_repository import GameRepository
+from RockPaperScissor.schemas.game import GameRequest
+import string
+import random
+
+# from RockPaperScissor.repositories.db import create_tables_if_not_exist
+
+# create_tables_if_not_exist()
 
 
+test = GameRequest(user_move="rock")
 
 game_service = GameService()
-print(game_service.start_new_round(session_id = "666"))
-print(game_service.play_round(game_id = "a9a13898-4072-4392-8256-0b9ab8cf6d13", player_move = "rock"))
+
+print(game_service.play_round(test))
 
 
+# session_id = "session_1744154886438_63"
+# repo = GameRepository()
+
+# result = repo.get_session_games(session_id = "session_1744154886438_63")
+# print(0)
+# print(result[0])
+# print(1)
+# print(result[1])
