@@ -27,7 +27,7 @@ class GameService:
         """
 
         # Get game details and model state
-        last_game = self.repository.get_latest_game_in_session(request.game_id)
+        last_game = self.repository.get_latest_game_in_session(request.session_id)
 
         if not last_game:
             model_state = {}
