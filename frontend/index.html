@@ -388,34 +388,26 @@
                 gameStarted = true;
             
                 // Reset statistics for new game
-                resetStats();
+                wins = 0;
+                losses = 0;
+                draws = 0;
+                aiWins = 0;
+                aiLosses = 0;
+                aiDraws = 0;
+                currentStreak = 0;
+                lastResult = null;
+                moveStats = {
+                    rock: 0,
+                    paper: 0,
+                    scissors: 0
+                };
             
                 // Generate a new session ID if we don't have one
                 if (!currentSessionId) {
                     currentSessionId = "session_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
                 }
             
-                // Start a new round via API
-                const aiType = document.getElementById("algorithm").value;
-                const response = await fetch(`${API_BASE_URL}/game/start`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        user_id: currentSessionId,
-                        session_id: currentSessionId,
-                        ai_type: aiType
-                    })
-                });
-            
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-            
-                const data = await response.json();
-                console.log("Started new game:", data);
-            
-                // Save the game_id for the current round
-                currentGameId = data.game_id;
+                console.log("Started new game");
             
                 document.getElementById("result").innerText = "Game started! Make your move.";
                 document.getElementById("ranking-list").innerHTML = ""; // Clear ranking list
@@ -429,7 +421,7 @@
                 });
 
                 // Fetch session statistics
-            fetchSessionStats();
+            //fetchSessionStats();
             } catch (error) {
                 console.error("Error starting game:", error);
                 document.getElementById("result").innerText = "Error starting the game! Please try again.";
@@ -515,10 +507,12 @@
 
         // Play a round of the game
         async function playGame(playerChoice) {
-            if (!gameStarted || !currentGameId) {
+            if (!gameStarted) {
                 alert("Click 'Start Game' to begin!");
                 return;
             }
+
+            currentGameId = "game_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
 
             try {
                 const apiUrl = `${API_BASE_URL}/game/play`; 
@@ -527,7 +521,10 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         game_id: currentGameId,
-                        user_move: playerChoice
+                        user_move: playerChoice,
+                        user_id: currentSessionId,
+                        session_id: currentSessionId,
+                        ai_type: document.getElementById("algorithm").value
                     })
                 });
 
@@ -692,80 +689,6 @@
             const scissorsPercent = totalMoves > 0 ? ((moveStats.scissors / totalMoves) * 100).toFixed(1) : 0;
             document.getElementById("scissors-percent").innerText = scissorsPercent;
             document.getElementById("scissors-bar").style.width = `${scissorsPercent}%`;
-        }
-        
-        // Fetch session statistics from the server
-        async function fetchSessionStats() {
-            if (!currentSessionId) return;
-            
-            try {
-                const apiUrl = `${API_BASE_URL}/game/session/${currentSessionId}/stats`; 
-                const response = await fetch(apiUrl, { method: "GET" });
-
-                if (!response.ok) {
-                    console.log("Session stats endpoint not available yet");
-                    return;
-                }
-
-                const stats = await response.json();
-                console.log("Session statistics:", stats);
-                
-                // Update local stats from session data
-                updateStatsFromSessionData(stats);
-                
-                // Update session history on the dashboard
-                await fetchSessionHistory();
-                
-            } catch (error) {
-                console.log("Error fetching session stats:", error);
-            }
-        }
-        
-        // Fetch session history for the stats dashboard
-        async function fetchSessionHistory() {
-            if (!currentSessionId) return;
-            
-            try {
-                const apiUrl = `${API_BASE_URL}/game/session/${currentSessionId}/history?limit=10`; 
-                const response = await fetch(apiUrl, { method: "GET" });
-
-                if (!response.ok) {
-                    console.log("Session history endpoint not available yet");
-                    return;
-                }
-
-                const history = await response.json();
-                console.log("Session history:", history);
-                
-                // Show stats dashboard
-                document.getElementById("stats-dashboard").style.display = "block";
-                
-                // Update stats table
-                const statsBody = document.getElementById("stats-body");
-                statsBody.innerHTML = ""; // Clear previous stats
-                
-                // Add history to table
-                history.forEach((round, index) => {
-                    const row = document.createElement("tr");
-                    
-                    let resultText = "Draw";
-                    if (round.result === "player_win") resultText = "Win";
-                    if (round.result === "ai_win") resultText = "Loss";
-                    
-                    row.innerHTML = `
-                        <td>Round ${index + 1}</td>
-                        <td>${round.player_move}</td>
-                        <td>${round.ai_move}</td>
-                        <td>${resultText}</td>
-                        <td>${new Date(round.created_at * 1000).toLocaleTimeString()}</td>
-                    `;
-                    
-                    statsBody.appendChild(row);
-                });
-                
-            } catch (error) {
-                console.log("Error fetching session history:", error);
-            }
         }
     </script>
 </body>

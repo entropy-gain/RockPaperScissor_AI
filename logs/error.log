@@ -36,3 +36,126 @@
 2025-04-07 02:29:55,814 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
 2025-04-07 02:31:22,637 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
 2025-04-07 02:31:22,637 - RockPaperScissor - ERROR - Error completing round: An error occurred (ValidationException) when calling the UpdateItem operation: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: result
+2025-04-07 17:59:40,792 - RockPaperScissor - ERROR - Error getting latest game in session 71ad6893-2961-444f-bb1b-fec83ba137bd: An error occurred (ResourceNotFoundException) when calling the Query operation: Cannot do operations on a non-existent table
+2025-04-07 17:59:40,792 - RockPaperScissor - ERROR - Error getting latest game in session 71ad6893-2961-444f-bb1b-fec83ba137bd: An error occurred (ResourceNotFoundException) when calling the Query operation: Cannot do operations on a non-existent table
+2025-04-07 17:59:40,799 - RockPaperScissor - ERROR - Error creating new round: An error occurred (ResourceNotFoundException) when calling the PutItem operation: Cannot do operations on a non-existent table
+2025-04-07 17:59:40,799 - RockPaperScissor - ERROR - Error creating new round: An error occurred (ResourceNotFoundException) when calling the PutItem operation: Cannot do operations on a non-existent table
+2025-04-08 00:07:32,843 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:32,843 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:32,843 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:32,843 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:32,843 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:33,454 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:33,454 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:33,454 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:33,454 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:33,454 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:34,022 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:34,022 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:34,022 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:34,022 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:34,022 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:37,359 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:37,359 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:37,359 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:37,359 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:37,359 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:37,809 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:37,809 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:37,809 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:37,809 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:37,809 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:38,279 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:38,279 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:38,279 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:38,279 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:38,279 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:40,488 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:40,488 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:40,488 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:40,488 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:07:40,488 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:13:22,410 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:13:22,410 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:13:22,410 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:13:22,410 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 00:13:22,410 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:09:41,828 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:09:41,828 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:09:41,828 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:09:41,828 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:09:41,828 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:14:50,601 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:14:50,601 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:14:50,601 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:14:50,601 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:14:50,601 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:15:07,998 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:15:07,998 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:15:07,998 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:15:07,998 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:15:07,998 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:18:43,206 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:18:43,206 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:18:43,206 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:18:43,206 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:18:43,206 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:18:57,252 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:18:57,252 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:18:57,252 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:18:57,252 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:18:57,252 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:19:10,828 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:19:10,828 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:19:10,828 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:19:10,828 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:19:10,828 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:20:32,914 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:20:32,914 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:20:32,914 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:20:32,914 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:20:32,914 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:21:00,459 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:21:00,459 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:21:00,459 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:21:00,459 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:21:00,459 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() missing 2 required positional arguments: 'ai_type' and 'session_id'
+2025-04-08 01:21:22,341 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() got an unexpected keyword argument 'user_id'
+2025-04-08 01:21:22,341 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() got an unexpected keyword argument 'user_id'
+2025-04-08 01:21:22,341 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() got an unexpected keyword argument 'user_id'
+2025-04-08 01:21:22,341 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() got an unexpected keyword argument 'user_id'
+2025-04-08 01:21:22,341 - RockPaperScissor - ERROR - Error processing round: GameService.play_round() got an unexpected keyword argument 'user_id'
+2025-04-08 01:22:04,267 - RockPaperScissor - ERROR - Error processing round: 'GameService' object has no attribute 'get_latest_game_in_session'
+2025-04-08 01:22:04,267 - RockPaperScissor - ERROR - Error processing round: 'GameService' object has no attribute 'get_latest_game_in_session'
+2025-04-08 01:22:04,267 - RockPaperScissor - ERROR - Error processing round: 'GameService' object has no attribute 'get_latest_game_in_session'
+2025-04-08 01:22:04,267 - RockPaperScissor - ERROR - Error processing round: 'GameService' object has no attribute 'get_latest_game_in_session'
+2025-04-08 01:22:04,267 - RockPaperScissor - ERROR - Error processing round: 'GameService' object has no attribute 'get_latest_game_in_session'
+2025-04-08 01:23:12,526 - RockPaperScissor - ERROR - Error processing round: 'AdaptiveMarkovAI' object is not callable
+2025-04-08 01:23:12,526 - RockPaperScissor - ERROR - Error processing round: 'AdaptiveMarkovAI' object is not callable
+2025-04-08 01:23:12,526 - RockPaperScissor - ERROR - Error processing round: 'AdaptiveMarkovAI' object is not callable
+2025-04-08 01:23:12,526 - RockPaperScissor - ERROR - Error processing round: 'AdaptiveMarkovAI' object is not callable
+2025-04-08 01:23:12,526 - RockPaperScissor - ERROR - Error processing round: 'AdaptiveMarkovAI' object is not callable
+2025-04-08 23:02:54,372 - RockPaperScissor - ERROR - Error saving game: 'GameData' object has no attribute 'player_move'
+2025-04-08 23:02:54,372 - RockPaperScissor - ERROR - Error saving game: 'GameData' object has no attribute 'player_move'
+2025-04-08 23:03:26,059 - RockPaperScissor - ERROR - Error saving game: 'GameData' object has no attribute 'player_move'
+2025-04-08 23:03:26,059 - RockPaperScissor - ERROR - Error saving game: 'GameData' object has no attribute 'player_move'
+2025-04-08 23:03:32,926 - RockPaperScissor - ERROR - Error saving game: 'GameData' object has no attribute 'player_move'
+2025-04-08 23:03:32,926 - RockPaperScissor - ERROR - Error saving game: 'GameData' object has no attribute 'player_move'
+2025-04-08 23:07:40,469 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:07:40,469 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:12:11,498 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:12:11,498 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:12:15,291 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:12:15,291 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:12:38,415 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:12:38,415 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:12:57,011 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:12:57,011 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:13:28,280 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:13:28,280 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:13:43,474 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=0 ai_wins=1 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=0.0 ai_win_rate=100.0"
+2025-04-08 23:13:43,474 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=0 ai_wins=1 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=0.0 ai_win_rate=100.0"
+2025-04-08 23:22:59,151 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=0 ai_wins=1 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=0.0 ai_win_rate=100.0"
+2025-04-08 23:22:59,151 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=0 ai_wins=1 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=0.0 ai_win_rate=100.0"
+2025-04-08 23:24:56,584 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"
+2025-04-08 23:24:56,584 - RockPaperScissor - ERROR - Error saving game: Unsupported type "<class 'RockPaperScissor.schemas.game.SessionStats'>" for value "total_games=1 player_wins=1 ai_wins=0 draws=0 rock_count=1 paper_count=0 scissors_count=0 player_win_rate=100.0 ai_win_rate=0.0"

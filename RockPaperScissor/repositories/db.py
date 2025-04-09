@@ -118,7 +118,8 @@ def create_tables_if_not_exist():
                 AttributeDefinitions=[
                     {'AttributeName': 'game_id', 'AttributeType': 'S'},
                     {'AttributeName': 'user_id', 'AttributeType': 'S'},
-                    {'AttributeName': 'session_id', 'AttributeType': 'S'}
+                    {'AttributeName': 'session_id', 'AttributeType': 'S'},
+                    {'AttributeName': 'ai_type', 'AttributeType': 'S'}
                 ],
                 GlobalSecondaryIndexes=[
                     {
@@ -142,6 +143,17 @@ def create_tables_if_not_exist():
                             'ReadCapacityUnits': 5,
                             'WriteCapacityUnits': 5
                         }
+                    },
+                    {
+                        'IndexName': 'AITypeIndex',
+                        'KeySchema': [
+                            {'AttributeName': 'ai_type', 'KeyType': 'HASH'}
+                            ],
+                            'Projection': {'ProjectionType': 'ALL'},
+                            'ProvisionedThroughput': {
+                                'ReadCapacityUnits': 5,
+                                'WriteCapacityUnits': 5
+                            }
                     }
                 ],
                 ProvisionedThroughput={
