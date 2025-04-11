@@ -97,7 +97,7 @@ class GameService:
     
     
     def update_session_stats(self, last_game: Optional[Dict[str, Any]], 
-                            user_move: str, result: str) -> Dict[str, Any]:
+                        user_move: str, result: str) -> Dict[str, Any]:
         """
         Update session statistics based on current game result and last game's stats.
         
@@ -118,11 +118,12 @@ class GameService:
                 "player_wins": 0,
                 "ai_wins": 0,
                 "draws": 0,
-                "rock_count": 0,
-                "paper_count": 0,
-                "scissors_count": 0,
+                "player_rock_count": 0,  # Use consistent naming scheme
+                "player_paper_count": 0,
+                "player_scissors_count": 0,
                 "player_win_rate": 0,
-                "ai_win_rate": 0
+                "ai_win_rate": 0,
+                "current_player_win_streak": 0
             }
         
         # Increment total games
@@ -131,26 +132,30 @@ class GameService:
         # Update result counters
         if result == "player_win":
             stats["player_wins"] = stats.get("player_wins", 0) + 1
+            stats["current_player_win_streak"] = stats.get("current_player_win_streak", 0) + 1
         elif result == "ai_win":
             stats["ai_wins"] = stats.get("ai_wins", 0) + 1
+            stats["current_player_win_streak"] = 0  # Reset streak on loss
         elif result == "draw":
             stats["draws"] = stats.get("draws", 0) + 1
+            # Optionally reset streak on draw, depending on your game rules
         
-        # Update move counters
+        # Update move counters with consistent key names
         if user_move == "rock":
-            stats["rock_count"] = stats.get("rock_count", 0) + 1
+            stats["player_rock_count"] = stats.get("player_rock_count", 0) + 1
         elif user_move == "paper":
-            stats["paper_count"] = stats.get("paper_count", 0) + 1
+            stats["player_paper_count"] = stats.get("player_paper_count", 0) + 1
         elif user_move == "scissors":
-            stats["scissors_count"] = stats.get("scissors_count", 0) + 1
+            stats["player_scissors_count"] = stats.get("player_scissors_count", 0) + 1
         
-
+        # Calculate win rates
         if stats["total_games"] > 0:
             stats["player_win_rate"] = (stats.get("player_wins", 0) / stats["total_games"]) * 100
             stats["ai_win_rate"] = (stats.get("ai_wins", 0) / stats["total_games"]) * 100
         else:
             stats["player_win_rate"] = 0
             stats["ai_win_rate"] = 0
+            
         return stats
     
     def get_user_statistics(self, user_id: str) -> Dict[str, Any]:

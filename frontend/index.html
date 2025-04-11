@@ -27,17 +27,18 @@
             border-radius: 5px;
             border: 2px solid #333;
             background-color: white;
-            transition: background 0.3s;
+            transition: background 0.3s, opacity 0.3s;
             pointer-events: none; /* Initially disable buttons */
             opacity: 0.5; /* Gray out the buttons */
         }
-        .choice:hover {
+        .choice:hover:not([style*="pointer-events: none"]) { /* Only apply hover when enabled */
             background-color: #ddd;
         }
         #result {
             margin-top: 20px;
             font-size: 20px;
             font-weight: bold;
+            min-height: 24px; /* Prevent layout shift */
         }
         .stats {
             margin-top: 20px;
@@ -69,6 +70,7 @@
         .stats-versus {
             display: flex;
             justify-content: space-around;
+            align-items: center; /* Vertically align items */
             background-color: white;
             border-radius: 8px;
             padding: 15px;
@@ -116,6 +118,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex: 1; /* Ensure equal spacing */
+            padding: 0 5px; /* Add some padding */
         }
         .move-icon {
             font-size: 24px;
@@ -127,21 +131,41 @@
             border-radius: 10px;
             height: 8px;
             margin: 5px 0;
+            overflow: hidden; /* Ensure bar stays within bounds */
         }
         .progress-bar {
             height: 100%;
             border-radius: 10px;
             background-color: #007bff;
+            transition: width 0.3s ease-in-out; /* Smooth transition */
         }
         .final-report {
             margin-top: 20px;
             font-size: 18px;
             font-weight: bold;
             text-align: left;
-            display: inline-block;
             display: none; /* Initially hidden */
             width: 100%;
             max-width: 800px;
+            background-color: white; /* Add background for consistency */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .final-report h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+        .final-report ul {
+            list-style: none; /* Remove default bullets */
+            padding: 0;
+        }
+        .final-report li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .final-report li:last-child {
+            border-bottom: none;
         }
         .control-buttons {
             margin-top: 20px;
@@ -161,10 +185,17 @@
             background-color: #0056b3;
         }
         .btn-end {
-            background-color: red;
+            background-color: #dc3545; /* Bootstrap danger red */
         }
         .btn-end:hover {
-            background-color: darkred;
+            background-color: #c82333; /* Darker red */
+        }
+        .btn-refresh {
+             background-color: #ffc107; /* Bootstrap warning yellow */
+             color: #212529; /* Dark text for yellow */
+        }
+        .btn-refresh:hover {
+             background-color: #e0a800;
         }
         .stats-dashboard {
             background-color: white;
@@ -188,12 +219,7 @@
         th {
             background-color: #f2f2f2;
         }
-        .win-bar {
-            height: 20px;
-            background-color: #4caf50;
-            border-radius: 10px;
-        }
-        .container {
+        .ai-description-container { /* Renamed from .container */
             margin-top: 20px;
             padding: 20px;
             border: 1px solid #ccc;
@@ -201,23 +227,29 @@
             background-color: #f9f9f9;
             max-width: 800px;
             text-align: left;
+            border-radius: 8px; /* Added border radius */
+        }
+        .ai-description-container ul {
+            margin-top: 5px;
+            padding-left: 20px;
         }
         .vs-text {
             font-size: 24px;
             font-weight: bold;
-            margin: 15px 0;
+            margin: 0 15px; /* Adjusted margin */
             color: #555;
+            flex-shrink: 0; /* Prevent shrinking */
         }
     </style>
 </head>
 <body>
     <h1>Rock Paper Scissors</h1>
-    <p>Choose your move:</p>
+    <p>Challenge different AI models!</p>
 
-    <!-- AI model selection (Resets stats on change) -->
+    <!-- AI model selection -->
     <div>
         <label for="algorithm">Select AI Model:</label>
-        <select id="algorithm" onchange="resetStats()">
+        <select id="algorithm" onchange="resetStatsOnAIChange()">
             <option value="adaptive_markov">Adaptive Markov AI</option>
             <option value="random">Random</option>
             <option value="pattern">Pattern-Based</option>
@@ -226,7 +258,7 @@
     </div>
 
     <!-- AI description container -->
-    <div class="container"></div>
+    <div class="ai-description-container"></div>
 
     <!-- Game buttons -->
     <div class="choices">
@@ -235,7 +267,7 @@
         <button class="choice" id="scissors" onclick="playGame('scissors')">✂️ Scissors</button>
     </div>
 
-    <p id="result">Waiting for your move...</p>
+    <p id="result">Select an AI and click 'Start Game' to begin.</p>
 
     <!-- Win Rate Comparison -->
     <div class="stats-versus">
@@ -251,65 +283,46 @@
             <p>Wins: <span id="ai-wins">0</span> | Losses: <span id="ai-losses">0</span> | Draws: <span id="ai-draws">0</span></p>
         </div>
     </div>
-    
+
     <!-- Current session stats -->
     <div class="stats-container">
         <div class="stats-card">
             <h3>Game Count</h3>
             <p>Total Games: <span id="total-games">0</span></p>
-            <p>Current Streak: <span id="current-streak">0</span></p>
+            <p>Current Win Streak: <span id="current-streak">0</span></p>
         </div>
     </div>
-    
+
     <!-- Move distribution -->
     <div class="stats-container">
-        <div class="stats-card" style="width: 100%">
+        <div class="stats-card" style="width: 100%; border-left-color: #6f42c1;">
             <h3>Your Move Distribution</h3>
             <div class="moves-distribution">
                 <div class="move-stat">
                     <div class="move-icon">🪨</div>
                     <div><span id="rock-count">0</span> (<span id="rock-percent">0</span>%)</div>
                     <div class="progress-container">
-                        <div class="progress-bar" id="rock-bar" style="width: 0%"></div>
+                        <div class="progress-bar" id="rock-bar" style="width: 0%; background-color: #6c757d;"></div>
                     </div>
                 </div>
                 <div class="move-stat">
                     <div class="move-icon">📄</div>
                     <div><span id="paper-count">0</span> (<span id="paper-percent">0</span>%)</div>
                     <div class="progress-container">
-                        <div class="progress-bar" id="paper-bar" style="width: 0%"></div>
+                        <div class="progress-bar" id="paper-bar" style="width: 0%; background-color: #17a2b8;"></div>
                     </div>
                 </div>
                 <div class="move-stat">
                     <div class="move-icon">✂️</div>
                     <div><span id="scissors-count">0</span> (<span id="scissors-percent">0</span>%)</div>
                     <div class="progress-container">
-                        <div class="progress-bar" id="scissors-bar" style="width: 0%"></div>
+                        <div class="progress-bar" id="scissors-bar" style="width: 0%; background-color: #fd7e14;"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Real-time Game Statistics Dashboard -->
-    <div class="stats-dashboard" id="stats-dashboard">
-        <h2>Session History</h2>
-        <table id="stats-table">
-            <thead>
-                <tr>
-                    <th>Round</th>
-                    <th>Your Move</th>
-                    <th>AI Move</th>
-                    <th>Result</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-            <tbody id="stats-body">
-                <!-- History data will be populated here -->
-            </tbody>
-        </table>
-    </div>
-    
+
     <!-- Final AI model performance report (Initially hidden) -->
     <div class="final-report" id="final-report">
         <h2>AI Performance Ranking</h2>
@@ -319,117 +332,106 @@
     <!-- Control buttons -->
     <div class="control-buttons">
         <button class="btn" onclick="startGame()">Start Game</button>
-        <button class="btn" onclick="refreshStats()">Refresh Stats</button>
-        <button class="btn btn-end" onclick="endGame()">End Game</button>
+        <button class="btn btn-refresh" onclick="refreshStats()">Refresh Stats</button>
+        <button class="btn btn-end" onclick="endGame()">End Game & Show Rankings</button>
     </div>
 
     <script>
-        const API_BASE_URL = "http://localhost:8000"; // Will be replaced with actual API Gateway URL
+        // --- Configuration ---
+        const API_BASE_URL = "http://localhost:8000"; // Replace with your actual API Gateway URL if deployed
         const aiDescriptions = {
             adaptive_markov: `
             <strong>Adaptive Markov AI:</strong> Uses entropy-based weighting between two predictive models:
             <ul>
-                <li><strong>Markov Model:</strong> Tracks transition patterns between moves</li>
-                <li><strong>Frequency Model:</strong> Analyzes your overall move distribution</li>
+                <li><strong>Markov Model:</strong> Tracks transition patterns between moves (e.g., Rock -> Paper).</li>
+                <li><strong>Frequency Model:</strong> Analyzes your overall move distribution (e.g., you play Rock 50% of the time).</li>
             </ul>
-            The AI automatically adjusts its strategy based on how predictable your play pattern is.
+            The AI automatically adjusts its strategy based on how predictable your play pattern is, aiming to exploit patterns while falling back on frequency analysis if your play seems random.
             `,
             random: `
-            <strong>Random AI:</strong> Selects Rock, Paper, or Scissors at complete random.
-            <p>There is no pattern or prediction—it simply rolls the dice every turn!</p>
+            <strong>Random AI:</strong> Selects Rock, Paper, or Scissors with equal probability (1/3 chance each).
+            <p>There is no pattern or prediction involved. It's purely luck-based, making it a good baseline for comparison.</p>
             `,
             pattern: `
-            <strong>Pattern-Based AI:</strong> Attempts to detect repeating patterns in your moves.
-            <p>If you tend to cycle through Rock → Paper → Scissors, this AI will try to catch that!</p>
+            <strong>Pattern-Based AI:</strong> Attempts to detect simple repeating sequences in your recent moves (e.g., Rock-Paper-Rock-Paper).
+            <p>If it detects a pattern like "XYZ", it predicts you will play "X" next and chooses the counter-move. Effective against players who fall into simple habits.</p>
             `,
             markov: `
-            <strong>Markov Chain AI:</strong> Predicts your next move based on your last move.
-            <p>It uses a transition matrix learned from your move history.</p>
+            <strong>Markov Chain AI:</strong> Predicts your next move based *only* on your immediately preceding move.
+            <p>It builds a probability table (Markov chain) tracking how often you transition from one move to another (e.g., after playing Rock, how often do you play Paper next?). It then predicts your most likely next move based on your last one.</p>
             `
         };
 
-        
-        // Game state variables
-        let wins = 0, losses = 0, draws = 0;
-        let aiWins = 0, aiLosses = 0, aiDraws = 0;
+        // --- Game State Variables ---
+        let wins = 0;
+        let losses = 0;
+        let draws = 0;
+        let aiWins = 0;
+        let aiLosses = 0;
+        let aiDraws = 0;
+        let currentStreak = 0; 
+        let moveStats = { rock: 0, paper: 0, scissors: 0 };
         let gameStarted = false;
-        let currentSessionId = null; 
-        let currentGameId = null;
-        let currentStreak = 0, lastResult = null;
-        let moveStats = {
-            rock: 0,
-            paper: 0,
-            scissors: 0
-        };
+        let currentSessionId = null; // Unique ID for the current game session against one AI type
+
+        // --- DOM Elements (Cache for performance) ---
+        const resultDisplay = document.getElementById("result");
+        const aiTypeSelect = document.getElementById("algorithm");
+        const currentAiTypeDisplay = document.getElementById("current-ai-type");
+        const aiDescriptionContainer = document.querySelector(".ai-description-container");
+        const finalReportDisplay = document.getElementById("final-report");
+        const rankingList = document.getElementById("ranking-list");
+        const gameButtons = document.querySelectorAll('.choice');
         
-        // Initialize game
-        document.addEventListener("DOMContentLoaded", function() {
-            // Set initial AI type display
-            updateAITypeDisplay();
+        // Stat displays
+        const winsDisplay = document.getElementById("wins");
+        const lossesDisplay = document.getElementById("losses");
+        const drawsDisplay = document.getElementById("draws");
+        const aiWinsDisplay = document.getElementById("ai-wins");
+        const aiLossesDisplay = document.getElementById("ai-losses");
+        const aiDrawsDisplay = document.getElementById("ai-draws");
+        const totalGamesDisplay = document.getElementById("total-games");
+        const playerWinRateDisplay = document.getElementById("player-win-rate");
+        const aiWinRateDisplay = document.getElementById("ai-win-rate");
+        const currentStreakDisplay = document.getElementById("current-streak");
         
-            // Add change event listener to AI type dropdown
-            document.getElementById("algorithm").addEventListener("change", updateAITypeDisplay);
+        // Move distribution displays
+        const rockCountDisplay = document.getElementById("rock-count");
+        const rockPercentDisplay = document.getElementById("rock-percent");
+        const rockBar = document.getElementById("rock-bar");
+        const paperCountDisplay = document.getElementById("paper-count");
+        const paperPercentDisplay = document.getElementById("paper-percent");
+        const paperBar = document.getElementById("paper-bar");
+        const scissorsCountDisplay = document.getElementById("scissors-count");
+        const scissorsPercentDisplay = document.getElementById("scissors-percent");
+        const scissorsBar = document.getElementById("scissors-bar");
+
+        // --- Initialization ---
+        document.addEventListener("DOMContentLoaded", () => {
+            updateAITypeDisplay(); // Set initial AI type and description
+            updateStats(); // Initialize display with zeros
         });
-    
-        // Update the AI type display
+
+        // --- UI Update Functions ---
+
+        /** Updates the displayed AI name and description based on the dropdown selection. */
         function updateAITypeDisplay() {
-            const aiTypeSelect = document.getElementById("algorithm");
             const aiKey = aiTypeSelect.value;
             const aiName = aiTypeSelect.options[aiTypeSelect.selectedIndex].text;
-            document.getElementById("current-ai-type").innerText = aiName;
-            const descriptionContainer = document.querySelector(".container");
-            descriptionContainer.innerHTML = aiDescriptions[aiKey] || `<strong>${aiName}:</strong> No description available.`;
+            currentAiTypeDisplay.innerText = aiName;
+            aiDescriptionContainer.innerHTML = aiDescriptions[aiKey] || `<strong>${aiName}:</strong> No description available.`;
         }
 
-        
-        // Start the game: enable buttons, reset session statistics, and hide AI ranking
-        async function startGame() {
-            try {
-                gameStarted = true;
-            
-                // Reset statistics for new game
-                wins = 0;
-                losses = 0;
-                draws = 0;
-                aiWins = 0;
-                aiLosses = 0;
-                aiDraws = 0;
-                currentStreak = 0;
-                lastResult = null;
-                moveStats = {
-                    rock: 0,
-                    paper: 0,
-                    scissors: 0
-                };
-            
-                // Generate a new session ID if we don't have one
-                if (!currentSessionId) {
-                    currentSessionId = "session_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
-                }
-            
-                console.log("Started new game");
-            
-                document.getElementById("result").innerText = "Game started! Make your move.";
-                document.getElementById("ranking-list").innerHTML = ""; // Clear ranking list
-                document.getElementById("final-report").style.display = "none"; // Hide ranking section
-                document.getElementById("stats-dashboard").style.display = "block"; // Show stats dashboard
-
-                // Enable game buttons
-                document.querySelectorAll('.choice').forEach(button => {
-                    button.style.pointerEvents = "auto"; 
-                    button.style.opacity = "1";
-                });
-
-                // Fetch session statistics
-            //fetchSessionStats();
-            } catch (error) {
-                console.error("Error starting game:", error);
-                document.getElementById("result").innerText = "Error starting the game! Please try again.";
-            }
+        /** Enables or disables the Rock, Paper, Scissors buttons. */
+        function setGameButtonsEnabled(enabled) {
+            gameButtons.forEach(button => {
+                button.style.pointerEvents = enabled ? "auto" : "none";
+                button.style.opacity = enabled ? "1" : "0.5";
+            });
         }
 
-       // Reset session stats when AI model changes
-        function resetStats() {
+        /** Resets all local statistics and updates the display. */
+        function resetLocalStats() {
             wins = 0;
             losses = 0;
             draws = 0;
@@ -437,258 +439,315 @@
             aiLosses = 0;
             aiDraws = 0;
             currentStreak = 0;
-            lastResult = null;
-            moveStats = {
-                rock: 0,
-                paper: 0,
-                scissors: 0
-            };
-            updateStats();
-            updateAITypeDisplay();
-            document.getElementById("result").innerText = "Stats reset! Click 'Start Game' to begin.";
-        }
-        
-        // Refresh game statistics from server
-        function refreshStats() {
-            if (currentSessionId) {
-                fetchSessionStats();
-                document.getElementById("result").innerText = "Statistics refreshed!";
-            } else {
-                document.getElementById("result").innerText = "No active session to refresh.";
-            }
+            moveStats = { rock: 0, paper: 0, scissors: 0 };
+            updateStats(); // Update display to show zeros
         }
 
-        // End the game: fetch AI model ranking from the backend and display
-        async function endGame() {
-            gameStarted = false;
+        /** Updates all statistic displays on the page based on current state variables. */
+        function updateStats() {
+            // Update basic stats displays
+            winsDisplay.innerText = wins;
+            lossesDisplay.innerText = losses;
+            drawsDisplay.innerText = draws;
+            aiWinsDisplay.innerText = aiWins;
+            aiLossesDisplay.innerText = aiLosses;
+            aiDrawsDisplay.innerText = aiDraws;
+            currentStreakDisplay.innerText = currentStreak;
             
-            // Log end of game session
-            console.log("Ending game session:", currentSessionId);
+            // Calculate total games
+            const totalGames = wins + losses + draws;
+            totalGamesDisplay.innerText = totalGames;
 
-            // Disable game buttons
-            document.querySelectorAll('.choice').forEach(button => {
-                button.style.pointerEvents = "none"; 
-                button.style.opacity = "0.5";
-            });
+            // Calculate win rates (safely)
+            const playerWinRate = totalGames > 0 ? (wins / totalGames) * 100 : 0;
+            playerWinRateDisplay.innerText = playerWinRate.toFixed(1) + "%";
 
-            // Fetch AI model rankings from the backend
-            try {
-                const apiUrl = `${API_BASE_URL}/game/ai-performance`; 
-                const response = await fetch(apiUrl, { method: "GET" });
+            const aiWinRate = totalGames > 0 ? (aiWins / totalGames) * 100 : 0;
+            aiWinRateDisplay.innerText = aiWinRate.toFixed(1) + "%";
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+            // Update move distribution
+            updateMoveDistribution();
+        }
+
+        /** Updates the move distribution displays. */
+        function updateMoveDistribution() {
+            // Ensure moveStats values are numbers
+            moveStats.rock = Number(moveStats.rock || 0);
+            moveStats.paper = Number(moveStats.paper || 0);
+            moveStats.scissors = Number(moveStats.scissors || 0);
+            
+            // Calculate total moves
+            const totalMoves = moveStats.rock + moveStats.paper + moveStats.scissors;
+            console.log(`Move distribution - Total: ${totalMoves}, Rock: ${moveStats.rock}, Paper: ${moveStats.paper}, Scissors: ${moveStats.scissors}`);
+            
+            // Update each move's display
+            function updateMoveStats(move, countEl, percentEl, barEl) {
+                const count = moveStats[move];
+                countEl.innerText = count;
+                
+                // Calculate percentage
+                let percentage = 0;
+                if (totalMoves > 0) {
+                    percentage = (count / totalMoves) * 100;
                 }
-
-                const aiRankings = await response.json(); // Backend should return sorted AI performance
-                console.log("AI Performance Response:", aiRankings);
-
-                // Show AI ranking section
-                document.getElementById("final-report").style.display = "block";
-
-                // Display AI model rankings
-                let rankingList = document.getElementById("ranking-list");
-                rankingList.innerHTML = ""; // Clear previous rankings
-
-                aiRankings.forEach((ai, index) => {
-                    let listItem = document.createElement("li");
-                    listItem.innerText = `No. ${index + 1}: ${ai.name.toUpperCase()} - Win Rate: ${ai.ai_win_rate}%, Wins: ${ai.ai_wins}, Losses: ${ai.player_wins}, Draws: ${ai.draws}`;
-                    rankingList.appendChild(listItem);
-                });
-            
-            } catch (error) {
-                console.error("Error fetching AI performance:", error);
-                document.getElementById("ranking-list").innerHTML = "<li>Error: Could not fetch AI rankings.</li>";
+                
+                // Update the UI elements
+                percentEl.innerText = percentage.toFixed(1);
+                barEl.style.width = `${percentage}%`;
+                console.log(`Set ${move} bar width to ${percentage}%`);
             }
-            
-            // Reset for new game
-            currentGameId = null;
+
+            // Update each move type
+            updateMoveStats('rock', rockCountDisplay, rockPercentDisplay, rockBar);
+            updateMoveStats('paper', paperCountDisplay, paperPercentDisplay, paperBar);
+            updateMoveStats('scissors', scissorsCountDisplay, scissorsPercentDisplay, scissorsBar);
         }
 
-        // Play a round of the game
-        async function playGame(playerChoice) {
-            if (!gameStarted) {
-                alert("Click 'Start Game' to begin!");
+        /** Updates statistics display from session data from server */
+        function updateStatsFromSessionData(sessionStats) {
+            if (!sessionStats) {
+                console.error("No session stats received");
                 return;
             }
 
-            currentGameId = "game_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+            try {
+                console.log("Updating from session stats:", sessionStats);
+                
+                // Update win/loss/draw counts
+                wins = Number(sessionStats.player_wins || 0);
+                losses = Number(sessionStats.ai_wins || 0);
+                draws = Number(sessionStats.draws || 0);
+                aiWins = Number(sessionStats.ai_wins || 0);
+                aiLosses = Number(sessionStats.player_wins || 0);
+                aiDraws = Number(sessionStats.draws || 0);
+                
+                // Update move stats based on what backend provides
+                if (sessionStats.rock_count !== undefined) {
+                    moveStats.rock = Number(sessionStats.rock_count || 0);
+                    moveStats.paper = Number(sessionStats.paper_count || 0);
+                    moveStats.scissors = Number(sessionStats.scissors_count || 0);
+                    console.log("Updated moveStats from backend data:", moveStats);
+                }
+                
+                // Now update the UI with all stats
+                updateStats();
+            } catch (err) {
+                console.error("Error processing session data:", err);
+            }
+        }
+
+        // --- Game Logic Functions ---
+
+        /** Starts a new game session against the currently selected AI. */
+        function startGame() {
+            gameStarted = true;
+            resetLocalStats(); // Reset stats for the new game session
+
+            // Generate a unique session ID for this game instance
+            currentSessionId = "session_" + Date.now() + "_" + Math.random().toString(36).substring(2, 10);
+            console.log("Started new game session:", currentSessionId, "against AI:", aiTypeSelect.value);
+
+            resultDisplay.innerText = "Game started! Make your move.";
+            finalReportDisplay.style.display = "none"; // Hide ranking report
+            rankingList.innerHTML = ""; // Clear previous rankings
+
+            setGameButtonsEnabled(true); // Enable game buttons
+        }
+
+        /** Resets stats and UI when the AI selection changes. */
+        function resetStatsOnAIChange() {
+            console.log("AI selection changed, resetting stats.");
+            gameStarted = false; // Stop current game
+            currentSessionId = null; // Invalidate session ID
+            resetLocalStats();
+            updateAITypeDisplay();
+            setGameButtonsEnabled(false); // Disable buttons until 'Start Game' is clicked
+            resultDisplay.innerText = "AI changed. Click 'Start Game' to begin a new session.";
+            finalReportDisplay.style.display = "none"; // Hide ranking report
+        }
+
+        /** Fetches the latest statistics for the current session from the server. */
+        async function fetchSessionStats() {
+            if (!currentSessionId) {
+                console.log("No active session ID to fetch stats for.");
+                resultDisplay.innerText = "No active game session. Start a new game.";
+                return;
+            }
+
+            console.log("Refreshing stats for session:", currentSessionId);
+            try {
+                // Clear previous errors
+                resultDisplay.innerText = "Fetching statistics...";
+                
+                const apiUrl = `${API_BASE_URL}/game/session-stats?session_id=${currentSessionId}`;
+                const response = await fetch(apiUrl);
+
+                if (!response.ok) {
+                    let errorMsg = `Server error: ${response.status}`;
+                    try {
+                        const errorData = await response.json();
+                        if (errorData.detail) {
+                            errorMsg += ` - ${errorData.detail}`;
+                        }
+                    } catch (e) { /* If not JSON, ignore */ }
+                    throw new Error(errorMsg);
+                }
+
+                const sessionStats = await response.json();
+                updateStatsFromSessionData(sessionStats);
+                resultDisplay.innerText = "Statistics refreshed successfully!";
+
+            } catch (error) {
+                console.error("Error fetching session stats:", error);
+                resultDisplay.innerText = `Error refreshing statistics: ${error.message}`;
+            }
+        }
+
+        /** Called when the Refresh Stats button is clicked. */
+        function refreshStats() {
+             if (!gameStarted) {
+                 resultDisplay.innerText = "Start a game first to refresh stats.";
+                 return;
+             }
+            fetchSessionStats(); // Fetch and update stats
+        }
+
+        /** Ends the current game session and fetches overall AI performance rankings. */
+        async function endGame() {
+            if (!gameStarted && !currentSessionId) {
+                 resultDisplay.innerText = "No game session active to end.";
+                 return;
+            }
+
+            gameStarted = false;
+            setGameButtonsEnabled(false); // Disable game buttons
+
+            const endedSessionId = currentSessionId; // Keep track of which session ended
+            currentSessionId = null; // Invalidate session ID for future plays
+
+            console.log("Ending game session:", endedSessionId);
+            resultDisplay.innerText = "Game ended. Fetching AI performance rankings...";
+
+            // Fetch AI model rankings from the backend
+            try {
+                const apiUrl = `${API_BASE_URL}/game/ai-performance`;
+                const response = await fetch(apiUrl);
+
+                if (!response.ok) {
+                     let errorMsg = `Server error: ${response.status}`;
+                    try {
+                        const errorData = await response.json();
+                        if (errorData.detail) {
+                            errorMsg += ` - ${errorData.detail}`;
+                        }
+                    } catch (e) { /* If not JSON, ignore */ }
+                    throw new Error(errorMsg);
+                }
+
+                const aiRankings = await response.json();
+                console.log("AI Performance Response:", aiRankings);
+
+                // Display AI model rankings
+                rankingList.innerHTML = ""; // Clear previous rankings
+                if (Array.isArray(aiRankings) && aiRankings.length > 0) {
+                    aiRankings.forEach((ai, index) => {
+                        const listItem = document.createElement("li");
+                        // Get values safely with defaults
+                        const aiName = ai.name || 'Unknown AI';
+                        const winRate = ai.ai_win_rate !== undefined ? 
+                            `${parseFloat(ai.ai_win_rate).toFixed(1)}%` : 'N/A';
+                        const wins = ai.ai_wins ?? 'N/A';
+                        const losses = ai.player_wins ?? 'N/A';
+                        const drawsVal = ai.draws ?? 'N/A';
+                        
+                        listItem.innerText = `#${index + 1}: ${aiName.toUpperCase()} - Win Rate: ${winRate} (W: ${wins} | L: ${losses} | D: ${drawsVal})`;
+                        rankingList.appendChild(listItem);
+                    });
+                    resultDisplay.innerText = "Game ended. AI performance rankings displayed below.";
+                } else {
+                    rankingList.innerHTML = "<li>No AI performance data available.</li>";
+                    resultDisplay.innerText = "Game ended. Could not retrieve AI rankings.";
+                }
+                finalReportDisplay.style.display = "block"; // Show ranking section
+
+            } catch (error) {
+                console.error("Error fetching AI performance:", error);
+                rankingList.innerHTML = `<li>Error fetching rankings: ${error.message}</li>`;
+                resultDisplay.innerText = "Error fetching AI performance rankings.";
+                finalReportDisplay.style.display = "block"; // Show section even on error
+            }
+        }
+
+        /** Plays one round of the game by sending the player's move to the backend. */
+        async function playGame(playerChoice) {
+            if (!gameStarted || !currentSessionId) {
+                alert("Please click 'Start Game' first!");
+                return;
+            }
+
+            console.log(`Playing move: ${playerChoice} for session: ${currentSessionId}`);
+            resultDisplay.innerText = "Processing your move...";
 
             try {
-                const apiUrl = `${API_BASE_URL}/game/play`; 
+                const apiUrl = `${API_BASE_URL}/game/play`;
                 const response = await fetch(apiUrl, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        game_id: currentGameId,
                         user_move: playerChoice,
-                        user_id: currentSessionId,
                         session_id: currentSessionId,
-                        ai_type: document.getElementById("algorithm").value
+                        ai_type: aiTypeSelect.value
                     })
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    let errorMsg = `Server error: ${response.status}`;
+                    try {
+                        const errorData = await response.json();
+                        if (errorData.detail) {
+                            errorMsg += ` - ${errorData.detail}`;
+                        }
+                    } catch (e) { /* If not JSON, ignore */ }
+                    throw new Error(errorMsg);
                 }
-                
-                const data = await response.json();
-                console.log("Round result:", data); 
 
-                // Display the result
-                let resultText;
+                const data = await response.json();
+                console.log("Round response:", data);
+
+                // Display round result
+                let resultText = "draw"; // Default
                 if (data.result === "player_win") {
                     resultText = "win";
+                    currentStreak++; // Increment win streak on win
                 } else if (data.result === "ai_win") {
                     resultText = "lose";
-                } else {
-                    resultText = "draw";
+                    currentStreak = 0; // Reset win streak on loss
+                } else { // draw
+                    // Keep streak the same on draw
                 }
-
-                document.getElementById("result").innerText = 
-                    `You chose ${data.user_move}, AI chose ${data.ai_move}. Result: You ${resultText}!`;
-
-                // Update statistics
-                updateStatsFromResult(data.result);
                 
-                // Update move distribution
+                // Update UI with current streak
+                currentStreakDisplay.innerText = currentStreak;
+                
+                const userMove = data.user_move || playerChoice;
+                const aiMove = data.ai_move || "?";
+                resultDisplay.innerText = `You chose ${userMove}, AI chose ${aiMove}. Result: You ${resultText}!`;
+
+                // Update move count in local tracking
                 moveStats[playerChoice]++;
                 
-                updateStats();
-                
-                // Get latest session stats from server
+                // Update all stats from server response
                 if (data.session_stats) {
                     updateStatsFromSessionData(data.session_stats);
+                } else {
+                    // If no session_stats in response, update UI with local changes
+                    updateStats();
                 }
-                
-                // Start a new round automatically for the next move
-                await startNextRound();
-                
+
             } catch (error) {
                 console.error("Error playing round:", error);
-                document.getElementById("result").innerText = "Error: Couldn't complete the round!";
+                resultDisplay.innerText = `Error playing round: ${error.message}`;
             }
-        }
-
-        // Start a new round for the next move
-        async function startNextRound() {
-            try {
-                const aiType = document.getElementById("algorithm").value;
-                const response = await fetch(`${API_BASE_URL}/game/start`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        user_id: currentSessionId,
-                        session_id: currentSessionId,
-                        ai_type: aiType
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log("New round started:", data);
-                
-                // Update game ID for next round
-                currentGameId = data.game_id;
-            } catch (error) {
-                console.error("Error starting next round:", error);
-                document.getElementById("result").innerText += " Error starting next round.";
-            }
-        }
-
-        // Update statistics based on the result
-        function updateStatsFromResult(result) {
-            if (result === "player_win") {
-                wins++;
-                aiLosses++;
-                if (lastResult === "player_win") {
-                    currentStreak++;
-                } else {
-                    currentStreak = 1;
-                }
-                lastResult = "player_win";
-            } else if (result === "ai_win") {
-                losses++;
-                aiWins++;
-                if (lastResult === "ai_win") {
-                    currentStreak++;
-                } else {
-                    currentStreak = 1;
-                }
-                lastResult = "ai_win";
-            } else {
-                draws++;
-                aiDraws++;
-                currentStreak = 0;
-                lastResult = "draw";
-            }
-        }
-
-        // Update statistics display from session data from server
-        function updateStatsFromSessionData(sessionStats) {
-            wins = sessionStats.player_wins;
-            losses = sessionStats.ai_wins;
-            draws = sessionStats.draws;
-            aiWins = sessionStats.ai_wins;
-            aiLosses = sessionStats.player_wins;
-            aiDraws = sessionStats.draws;
-            
-            updateStats();
-        }
-
-        // Update the stats display for the current session
-        function updateStats() {
-            // Update player stats
-            document.getElementById("wins").innerText = wins;
-            document.getElementById("losses").innerText = losses;
-            document.getElementById("draws").innerText = draws;
-            
-            // Update AI stats
-            document.getElementById("ai-wins").innerText = aiWins;
-            document.getElementById("ai-losses").innerText = aiLosses;
-            document.getElementById("ai-draws").innerText = aiDraws;
-            
-            const totalGames = wins + losses + draws;
-            document.getElementById("total-games").innerText = totalGames;
-            
-            // Calculate win rates
-            const playerWinRate = totalGames > 0 ? ((wins / totalGames) * 100).toFixed(1) : 0;
-            document.getElementById("player-win-rate").innerText = playerWinRate + "%";
-            
-            const aiWinRate = totalGames > 0 ? ((aiWins / totalGames) * 100).toFixed(1) : 0;
-            document.getElementById("ai-win-rate").innerText = aiWinRate + "%";
-            
-            // Update current streak
-            document.getElementById("current-streak").innerText = currentStreak;
-            
-            // Update move distribution
-            updateMoveDistribution();
-        }
-        
-        // Update move distribution display
-        function updateMoveDistribution() {
-            const totalMoves = moveStats.rock + moveStats.paper + moveStats.scissors;
-            
-            // Update rock stats
-            document.getElementById("rock-count").innerText = moveStats.rock;
-            const rockPercent = totalMoves > 0 ? ((moveStats.rock / totalMoves) * 100).toFixed(1) : 0;
-            document.getElementById("rock-percent").innerText = rockPercent;
-            document.getElementById("rock-bar").style.width = `${rockPercent}%`;
-            
-            // Update paper stats
-            document.getElementById("paper-count").innerText = moveStats.paper;
-            const paperPercent = totalMoves > 0 ? ((moveStats.paper / totalMoves) * 100).toFixed(1) : 0;
-            document.getElementById("paper-percent").innerText = paperPercent;
-            document.getElementById("paper-bar").style.width = `${paperPercent}%`;
-            
-            // Update scissors stats
-            document.getElementById("scissors-count").innerText = moveStats.scissors;
-            const scissorsPercent = totalMoves > 0 ? ((moveStats.scissors / totalMoves) * 100).toFixed(1) : 0;
-            document.getElementById("scissors-percent").innerText = scissorsPercent;
-            document.getElementById("scissors-bar").style.width = `${scissorsPercent}%`;
         }
     </script>
 </body>
