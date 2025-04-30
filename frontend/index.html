@@ -373,6 +373,7 @@
         let moveStats = { rock: 0, paper: 0, scissors: 0 };
         let gameStarted = false;
         let currentSessionId = null; // Unique ID for the current game session against one AI type
+        let currentUserID = null; // Unique ID for the current user
 
         // --- DOM Elements (Cache for performance) ---
         const resultDisplay = document.getElementById("result");
@@ -545,6 +546,7 @@
 
             // Generate a unique session ID for this game instance
             currentSessionId = "session_" + Date.now() + "_" + Math.random().toString(36).substring(2, 10);
+            const currentUserID = getOrCreateUserId();
             console.log("Started new game session:", currentSessionId, "against AI:", aiTypeSelect.value);
 
             resultDisplay.innerText = "Game started! Make your move.";
@@ -696,7 +698,8 @@
                     body: JSON.stringify({
                         user_move: playerChoice,
                         session_id: currentSessionId,
-                        ai_type: aiTypeSelect.value
+                        ai_type: aiTypeSelect.value,
+                        user_id: currentUserID,
                     })
                 });
 
@@ -748,6 +751,14 @@
                 console.error("Error playing round:", error);
                 resultDisplay.innerText = `Error playing round: ${error.message}`;
             }
+        }
+        /** Create or Get User ID, store in localStorage */
+        function getOrCreateUserId() {
+            if (!localStorage.getItem("currentUserID")) {
+                const uuid = crypto.randomUUID();
+                localStorage.setItem("currentUserID", uuid);
+            }
+            return localStorage.getItem("currentUserID");
         }
     </script>
 </body>

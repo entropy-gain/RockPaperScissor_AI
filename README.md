@@ -1,76 +1,113 @@
-# Rock Paper Scissors AI
+# 🪨📄✂️ Rock-Paper-Scissors Online Learning Agent
 
-### Overview
+A lightweight **reinforcement learning system** that learns to beat humans in Rock-Paper-Scissors, deployed on Hugging Face Space with real-time strategy updates, caching, and experiment tracking.
 
-This project is an AI-powered Rock Paper Scissors game that utilizes various machine learning models to predict and counter player moves. The backend is built with FastAPI and deployed via AWS Lambda, while the frontend is developed using Vue.js/React.
+---
+
+## 🚀 Project Overview
+
+This project is built for learning **ZenML**, reinforcement learning, and MLOps integration under resource-constrained environments like **Hugging Face Spaces**.
+
+- 🔁 Online learning with game-by-game updates
+- 💡 Dynamic strategy engine (Markov / Pattern / RL)
+- 🧠 In-memory cache to reduce write load
+- 🗃️ Periodic batch storage to SQLite
+- 📊 Optional: ZenML pipeline to track policy updates & reward trends
+
+---
+
+## 🧩 Architecture Components
+
+| Module              | Description |
+|---------------------|-------------|
+| **User Input**      | Rock, Paper, or Scissors |
+| **Game Cache**      | Stores recent game logs and state in memory |
+| **Strategy Engine** | Predicts next move using Markov or RL |
+| **Evaluator**       | Computes result and reward |
+| **Flush Manager**   | Writes cache to DB when triggered |
+| **SQLite DB**       | Stores game history and strategy logs |
+| **ZenML Pipeline**  | Tracks policy changes, metrics, artifacts |
+
+---
+
+## 🧠 Caching & Logging Strategy
+
+- 🧠 `game_cache`: A fixed-size memory queue (`collections.deque`)
+- 🔄 After N games or timeout, flush logs to `SQLite`
+- 💾 `strategy_log.json`: Stores serialized strategy versions with timestamps
+- 🔐 If cache is lost (e.g. on restart), reinitialize game and strategy
+
+---
+
+## 🗃️ Database Schema (SQLite)
+
+### Table: `game_logs`
+
+| Column | Type    | Description           |
+|--------|---------|-----------------------|
+| id     | INTEGER | Auto-increment key    |
+| timestamp | TEXT | Game time (UTC)       |
+| user_move | TEXT | Player move           |
+| ai_move   | TEXT | AI predicted move     |
+| result    | TEXT | `win`, `lose`, `draw` |
+| reward    | REAL | Numeric reward        |
+| strategy_version | TEXT | Strategy hash or version |
+
+### Table: `policy_logs`
+
+| Column | Type    | Description               |
+|--------|---------|---------------------------|
+| id     | INTEGER | Auto-increment key        |
+| timestamp | TEXT | Time of update            |
+| strategy_json | TEXT | Serialized strategy    |
+| avg_reward | REAL | Average reward so far    |
+| games_played | INTEGER | Total games since last update |
+
+---
 
 ### Project Structure
- 
+
 ```plaintext
 RockPaperScissor/
 ├── RockPaperScissor/              # Main application package
-│   ├── __init__.py
-│   ├── app.py                     # Main application entry point
+│   
+│───├── core/
+│   │   ├── environment/           # Game environment implementation (state transitions, round control)
+│   │   ├── agents/                # Strategy modules (supports Markov, Pattern, RL, etc.)
+│   │   ├── evaluation/            # Evaluation logic (rewards, win rates, etc.)
+│   │   └── ai_assist/             # AI move suggestion module (calls large language model)
 │   │
-│   ├── services/                  # Server logic layer
-│   │   ├── __init__.py
-│   │   ├── game_service.py        # Game-related server logic
+│   ├── repositories/              # Data access and persistence logic
+│   │   ├── model_repo.py          # Saving and loading of strategy models
+│   │   └── log_repo.py            # Game logging and record writing logic (connects to SQLite)
 │   │
-│   ├── repositories/              # Data access layer
-│   │   ├── __init__.py
-│   │   ├── db.py                  # Database connection
-│   │   ├── game_repository.py     # Game data access
+│   ├── router/                    # API routing layer
+│   │   └── game_routes.py         # Game endpoints: receive user moves, return results, control cache
 │   │
-│   ├── models/                    # AI models
-│   │   ├── __init__.py
-│   │   ├── base_ai.py             # AI base class
-│   │   ├── random_ai.py           # Random strategy AI
-│   │   ├── pattern_ai.py          # Pattern strategy AI
-│   │   └── ...
+│   ├── cache/                     # In-memory caching module (uses deque to manage game sessions)
+│   │   └── memory_cache.py        # Provides interfaces for add / flush / init cache
 │   │
-│   ├── schemas/                   # Data validation schemas
-│   │   ├── __init__.py
-│   │   ├── game.py                # Game-related schemas
+│   ├── zenml_pipelines/           # ZenML management module
+│   │   ├── steps/                 # ZenML step wrappers (strategy evaluation, logging, comparison, etc.)
+│   │   │   ├── evaluation_steps.py  # Execute strategy evaluation + log_metric()
+│   │   │   ├── comparison_steps.py  # Compare performance across strategies
+│   │   │   └── log_steps.py         # Save strategy structure, version, and results as artifacts
+│   │   │
+│   │   ├── pipelines/             # ZenML pipeline configurations
+│   │   │   ├── evaluation_pipeline.py  # Strategy evaluation flow: load → evaluate → log
+│   │   │   └── comparison_pipeline.py  # Multi-strategy comparison flow
+│   │   │
+│   │   └── utils/                 # ZenML utility functions
+│   │       └── formatters.py      # Convert between dict and artifact formats, flatten results, etc.
 │   │
-│   ├── routes/                    # API routes
-│   │   ├── __init__.py
-│   │   ├── stats.py                # User-related routes
-│   │   ├── game.py                # Game-related routes
+│   ├── database/                  # SQLite database initialization and schema management
+│   │   └── schema.sql             # Table definitions: game_logs / policy_logs
 │   │
-│   ├── utils/                     # Utilities
-│       ├── __init__.py
-│       ├── logging.py             # Logging configuration
+│   └── app.py                    # Application entry point, includes cache initialization and router registration
 │
 ├── frontend/                      # Frontend project
 │   ├── index.html                 # Main HTML entry page
 │   ├── webpage.html               # Secondary HTML page
-│
-├── deploy/                        # All deployment resources
-│   ├── lambda/                    # Lambda deployment resources
-│   │   ├── package/               # Lambda package content
-│   │   └── deploy_lambda.sh       # Lambda deployment script
-│   │
-│   ├── frontend/                  # Frontend deployment
-│   │   └── deploy_frontend.sh     # Frontend deployment script
-│   │
-│   ├── terraform/                 # Infrastructure as code
-│   │   ├── main.tf                # Main Terraform configuration
-│   │   ├── variables.tf           # Terraform variables
-│   │   └── outputs.tf             # Terraform outputs
-│   │
-│   └── scripts/                   # Utility deployment scripts
-│       └── setup_aws_resources.sh # Script to initialize resources
-│
-├── config/                        # Configuration files
-│
-├── tests/                         # Test suite
-│   ├── unit/                      # Unit tests
-│   │   ├── services/              # Service tests
-│   │   ├── repositories/          # Repository tests
-│   │   └── models/                # Model tests
-│   │
-│   └── integration/               # Integration tests
-│       └── api/                   # API tests
 │
 ├── pyproject.toml                 # Poetry dependency management
 ├── poetry.lock                    # Dependency lock file
@@ -145,4 +182,3 @@ git branch -d feature/new-feature
 - **Resolve merge conflicts carefully** and test thoroughly after merging.
 
 By following these best practices, we ensure a clean and maintainable codebase for the project.
-

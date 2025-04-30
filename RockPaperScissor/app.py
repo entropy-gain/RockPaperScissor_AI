@@ -6,24 +6,45 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from RockPaperScissor.routes import game_router
-from RockPaperScissor.repositories.db import create_tables_if_not_exist
 from RockPaperScissor.utils.logging import setup_logging
+from RockPaperScissor.game_cache.memory_cache import GameSessionCache, LLMCache
+from RockPaperScissor.repositories import Storage
+from RockPaperScissor.services import GameService, LLMService
+from RockPaperScissor.repositories.sql_storage import SQLStorage
 
 # Setup logging
 logger = setup_logging()
 
+# Global variables for service instances
+game_service = None
+storage = None
+llm_service = None
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Run on application startup"""
+    """Run on application startup and shutdown"""
+    global game_service, storage, llm_service
+    
     logger.info("Application starting up")
     
-     # Ensure DB tables exist
-    create_tables_if_not_exist()
-    logger.info("Database tables verified")
+    # Initialize storage and services
+    storage = SQLStorage()
+    await storage.initialize()  # This will create tables if they don't exist
+    llm_service = LLMService(storage=storage)
+    game_service = GameService(storage=storage)
+    
+    logger.info("Application initialized successfully")
     
     yield 
     
+    # Cleanup on shutdown
     logger.info("Application shutting down")
+    if game_service:
+        await game_service.shutdown()
+    if llm_service:
+        await llm_service.shutdown()
+    if storage:
+        await storage.close()
 
 # Create FastAPI app
 app = FastAPI(
@@ -54,17 +75,6 @@ async def root():
         "status": "online",
         "version": "1.0.0"
     }
-
-# Lambda handler for AWS deployment
-def lambda_handler(event, context):
-    """
-    AWS Lambda handler
-    
-    This function is used when deploying to AWS Lambda with API Gateway
-    """
-    from mangum import Mangum
-    handler = Mangum(app)
-    return handler(event, context)
 
 # Run application (development only)
 if __name__ == "__main__":

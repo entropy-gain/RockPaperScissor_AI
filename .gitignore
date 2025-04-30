@@ -1,0 +1,79 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Environment and dependencies
+.venv/
+env/
+venv/
+Pipfile.lock
+poetry.lock
+poetry.toml
+
+# VSCode settings
+.vscode/
+
+# SQLite database files
+*.db
+*.sqlite3
+
+# Local cache files
+cache/
+*.log
+*.tmp
+
+# ZenML artifacts and metadata
+zenml_data/
+.ml_metadata/
+.mlruns/
+artifacts/
+pipelines/
+steps/
+*/.zenml*
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints
+
+# Test coverage reports
+htmlcov/
+.coverage
+.tox/
+.nox/
+coverage.xml
+
+# pytest
+.pytest_cache/
+.cache/
+
+# Logs and debug
+*.log
+debug.log
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore compiled schema or auto-generated files
+*.parquet
+*.pkl
+*.joblib
+*.jsonl
+
+# Ignore model outputs
+*.pt
+*.onnx
+*.h5
+*.ckpt
+
+# Ignore local secrets/configs
+.env
+.env.*
+secrets.json
+
+# Ignore Docker files if generated
+*.pid
+*.lock

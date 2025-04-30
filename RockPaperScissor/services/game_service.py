@@ -1,41 +1,37 @@
-from typing import Dict, Any, Optional, Tuple, List
-import uuid
-from ..repositories.game_repository import GameRepository
-from ..schemas.game import GameRequest, GameResponse, GameData
-from ..models import get_ai, AI_MODELS
-from ..utils.logging import setup_logging
+from typing import Dict, Any, Optional
+from ..game_cache import GameSessionCache
+from ..schemas.game import GameRequest, GameResponse, GameData, GameSummary
+from ..models import get_ai
+from ..utils import setup_logging
+from ..services import LLMService
+from ..repositories import Storage
 
 logger = setup_logging()
 
 class GameService:
     """Service for game-related logic."""
-    
-    def __init__(self, game_repository: Optional[GameRepository] = None):
+    def __init__(self, storage: Storage):
         """Initialize the game service."""
-        self.repository = game_repository or GameRepository()
+        self.game_cache = GameSessionCache(storage=storage)
+        self.llm_service = LLMService(storage)
+        self.storage = storage
 
     def play_round(self, request: GameRequest) -> GameResponse:
         """
         Play a single round of rock-paper-scissors.
         
         Args:
-            game_id: The ID of the current round
-            user_move: The player's move ("rock", "paper", or "scissors")
+            request: GameRequest object containing game information
             
         Returns:
-            Dict containing round results
+            GameResponse containing round results
         """
 
-        # Get game details and model state
-        last_game = self.repository.get_latest_game_in_session(request.session_id)
+        # Get model info
+        model_name, model_state = self._get_model_info(request.session_id, request.user_id)
 
-        if not last_game:
-            model_state = {}
-        else:
-            model_state = last_game.get('model_state', {})
-        
         # Create AI instance
-        ai = get_ai(request.ai_type)
+        ai = get_ai(model_name)
 
         # Get AI's move
         ai_move, model_state = ai.make_move(model_state)
@@ -43,129 +39,143 @@ class GameService:
         # Determine winner
         result = self._determine_winner(request.user_move, ai_move)
 
-        # Set player's current move in the model state
-        model_state["player_last_move"] = request.user_move
+        # Update model state with game information
+        model_state.update({
+            "player_last_move": request.user_move,
+            "ai_last_move": ai_move,
+            "last_result": result
+        })
         logger.debug(f"Updated model state: {model_state}")
 
+        # Get the latest record
+        latest_record = self.game_cache.get_latest_record(request.session_id)
         # Get the updated session stats
-        session_stats = self.update_session_stats(last_game, request.user_move, result)
-        
+        session_stats = self._update_session_stats(latest_record.session_stats if latest_record else None, request.user_move, result)
         
         # Create GameData for storage
         game_data = GameData(
             game_id=request.game_id,
             user_id=request.user_id,
             session_id=request.session_id,
-            ai_type=request.ai_type,
             user_move=request.user_move,
             ai_move=ai_move,
             result=result,
+            model_name=model_name,
             model_state=model_state,
             session_stats=session_stats,
         )
         # Save game in repository
-        self.repository.save_game(game_data)
-        
+        self.game_cache.add_record(request.session_id, game_data)
         
         # Build response
-        # Create response
         response = GameResponse(
             game_id=request.game_id,
             user_id=request.user_id,
             session_id=request.session_id,
-            user_move=request.user_move,
-            ai_type=request.ai_type,
             ai_move=ai_move,
             result=result,
             session_stats=session_stats
-            )
+        )
         
         return response
     
-    def _determine_winner(self, user_move: str, ai_move: str) -> str:
+    def end_game(self, request: GameRequest) -> GameSummary:
+        """End the game and get summary."""
+
+        # Get latest record for summary
+        latest_record = self.game_cache.get_latest_record(request.session_id)
+        if latest_record:
+            llm_game_summary = self.llm_service.summarize_game_session(latest_record.model_state)
+
+            # Move session data to buffer (will be automatically flushed later)
+            self.game_cache.move_session_to_buffer(request.session_id)
+        else:
+            llm_game_summary = "No game data available for summary"
+            
+        response = GameSummary(
+            game_summary=llm_game_summary,
+        )
+ 
+        return response
+    
+    def _determine_winner(self, player_move: str, ai_move: str) -> str:
         """Determine the winner of a round."""
-        if user_move == ai_move:
+        if player_move == ai_move:
             return "draw"
         
-        # Rock beats scissors, scissors beats paper, paper beats rock
-        if (user_move == "rock" and ai_move == "scissors") or \
-           (user_move == "scissors" and ai_move == "paper") or \
-           (user_move == "paper" and ai_move == "rock"):
-            return "player_win"
+        winning_moves = {
+            "rock": "scissors",
+            "paper": "rock",
+            "scissors": "paper"
+        }
         
+        if winning_moves[player_move] == ai_move:
+            return "player_win"
         return "ai_win"
     
-    
-    def update_session_stats(self, last_game: Optional[Dict[str, Any]], 
-                        user_move: str, result: str) -> Dict[str, Any]:
-        """
-        Update session statistics based on current game result and last game's stats.
-        
-        Args:
-            last_game: The previous game data with session stats
-            user_move: The current player move
-            result: The result of the current round
+    def _get_model_info(self, session_id: str, user_id: str) -> tuple[str, Dict[str, Any]]:
+            """Get model name and state from cache or storage.
             
-        Returns:
-            Updated session statistics
-        """
-        # Get previous stats or initialize new stats
-        if last_game and "session_stats" in last_game:
-            stats = last_game.get("session_stats", {}).copy()
-        else:
-            stats = {
-                "total_games": 0,
+            Args:
+                session_id: Current session ID
+                user_id: User ID
+                
+            Returns:
+                Tuple containing model name and model state
+            """
+            # get data from cache
+            latest_record = self.game_cache.get_latest_record(session_id)
+
+            # get model state from cache or storage
+            if latest_record:
+                model_name = latest_record.model_name
+                model_state = latest_record.model_state
+            else:
+                # Try to get from storage
+                user_state = self.storage.get_user_state(user_id)
+                if user_state:
+                    model_name = user_state["model_name"]
+                    model_state = user_state["model_state"]
+                else:
+                    model_name = "adaptive_markov"
+                    model_state = {}
+            
+            return model_name, model_state
+    
+    def _update_session_stats(self, current_stats: Optional[Dict[str, Any]], player_move: str, result: str) -> Dict[str, Any]:
+        """Update session statistics."""
+        if not current_stats:
+            current_stats = {
+                "total_rounds": 0,
                 "player_wins": 0,
                 "ai_wins": 0,
                 "draws": 0,
-                "player_rock_count": 0,  # Use consistent naming scheme
-                "player_paper_count": 0,
-                "player_scissors_count": 0,
-                "player_win_rate": 0,
-                "ai_win_rate": 0,
-                "current_player_win_streak": 0
+                "rock_count": 0,
+                "paper_count": 0,
+                "scissors_count": 0
             }
         
-        # Increment total games
-        stats["total_games"] = stats.get("total_games", 0) + 1
-        
-        # Update result counters
+        current_stats["total_rounds"] += 1
         if result == "player_win":
-            stats["player_wins"] = stats.get("player_wins", 0) + 1
-            stats["current_player_win_streak"] = stats.get("current_player_win_streak", 0) + 1
+            current_stats["player_wins"] += 1
         elif result == "ai_win":
-            stats["ai_wins"] = stats.get("ai_wins", 0) + 1
-            stats["current_player_win_streak"] = 0  # Reset streak on loss
-        elif result == "draw":
-            stats["draws"] = stats.get("draws", 0) + 1
-            # Optionally reset streak on draw, depending on your game rules
-        
-        # Update move counters with consistent key names
-        if user_move == "rock":
-            stats["player_rock_count"] = stats.get("player_rock_count", 0) + 1
-        elif user_move == "paper":
-            stats["player_paper_count"] = stats.get("player_paper_count", 0) + 1
-        elif user_move == "scissors":
-            stats["player_scissors_count"] = stats.get("player_scissors_count", 0) + 1
-        
-        # Calculate win rates
-        if stats["total_games"] > 0:
-            stats["player_win_rate"] = (stats.get("player_wins", 0) / stats["total_games"]) * 100
-            stats["ai_win_rate"] = (stats.get("ai_wins", 0) / stats["total_games"]) * 100
+            current_stats["ai_wins"] += 1
         else:
-            stats["player_win_rate"] = 0
-            stats["ai_win_rate"] = 0
+            current_stats["draws"] += 1
             
-        return stats
+        # Update move statistics
+        if player_move == "rock":
+            current_stats["rock_count"] += 1
+        elif player_move == "paper":
+            current_stats["paper_count"] += 1
+        elif player_move == "scissors":
+            current_stats["scissors_count"] += 1
+            
+        return current_stats
     
-    def get_user_statistics(self, user_id: str) -> Dict[str, Any]:
-        """Get comprehensive statistics for a user across all sessions."""
-        return self.repository.get_user_stats(user_id)
-    
-    def get_ai_performance_stats(self) -> List[Dict[str, Any]]:
-        """Get performance comparisons for different AI types."""
-        return self.repository.get_ai_performance()
-    
-    def get_session_history(self, session_id: str, limit: int = 10) -> List[Dict[str, Any]]:
-        """Get recent rounds in a session."""
-        return self.repository.get_session_games(session_id, limit)
+    async def shutdown(self):
+        """Gracefully shutdown the game service."""
+        await self.game_cache.shutdown()
+
+
+

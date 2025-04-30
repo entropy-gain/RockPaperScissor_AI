@@ -15,7 +15,7 @@ AI_MODELS = {
 
 }
 
-def get_ai(ai_type):
+def get_ai(model_name):
     """
     Retrieves an AI instance based on the selected strategy.
     
@@ -26,4 +26,4 @@ def get_ai(ai_type):
     Returns:
         BaseAI: An instance of the selected AI
     """
-    return AI_MODELS.get(ai_type, RandomAI())
+    return AI_MODELS.get(model_name, AdaptiveMarkovAI(smoothing_factor=1.0, temperature=1.2))
