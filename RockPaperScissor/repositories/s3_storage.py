@@ -5,7 +5,12 @@ import json
 from typing import Dict, Any
 import uuid
 import asyncio
+import os
 from .storage import Storage, StorageError
+from ..utils import setup_logging
+from ..config.database import S3_CONFIG
+
+logger = setup_logging()
 
 class S3StorageError(StorageError):
     """Exception for S3 storage specific errors."""
@@ -14,17 +19,25 @@ class S3StorageError(StorageError):
 class S3Storage(Storage):
     """S3 storage management class."""
     
-    def __init__(self, bucket_name: str, region_name: str = "us-east-1"):
-        """Initialize S3 client.
-        
-        Args:
-            bucket_name: Name of the S3 bucket
-            region_name: AWS region name
-        """
+    def __init__(self):
+        """Initialize S3 client using configuration from S3_CONFIG."""
         try:
-            self.s3 = boto3.client('s3', region_name=region_name)
-            self.bucket_name = bucket_name
+            # Initialize S3 client with credentials from S3_CONFIG
+            self.s3 = boto3.client(
+                's3',
+                region_name=S3_CONFIG["region_name"],
+                aws_access_key_id=S3_CONFIG["aws_access_key_id"],
+                aws_secret_access_key=S3_CONFIG["aws_secret_access_key"],
+                endpoint_url=S3_CONFIG["endpoint_url"]
+            )
+            self.bucket_name = S3_CONFIG["bucket_name"]
+            
+            # Verify connection
+            self.s3.head_bucket(Bucket=self.bucket_name)
+            logger.info(f"Successfully connected to S3 bucket: {self.bucket_name}")
+            
         except Exception as e:
+            logger.error(f"Failed to initialize S3 client: {str(e)}")
             raise S3StorageError(f"Failed to initialize S3 client: {str(e)}")
     
     def _get_game_round_key(self, game_id: str) -> str:
@@ -38,11 +51,10 @@ class S3Storage(Storage):
         """
         return f"game_rounds/{game_id}.json"
     
-    def _get_llm_interaction_key(self, session_id: str, game_id: str) -> str:
+    def _get_llm_interaction_key(self, game_id: str) -> str:
         """Get S3 key for LLM interaction data.
         
         Args:
-            session_id: Session ID
             game_id: Game ID
             
         Returns:
@@ -72,6 +84,7 @@ class S3Storage(Storage):
                     ContentType='application/json'
                 )
             )
+            logger.info(f"Successfully saved game round to S3: {key}")
             return True
         except Exception as e:
             logger.error(f"Failed to save game round to S3: {str(e)}")
@@ -100,6 +113,7 @@ class S3Storage(Storage):
                     ContentType='application/json'
                 )
             )
+            logger.info(f"Successfully saved LLM interaction to S3: {key}")
             return True
         except Exception as e:
             logger.error(f"Failed to save LLM interaction to S3: {str(e)}")

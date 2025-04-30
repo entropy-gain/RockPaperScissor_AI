@@ -10,7 +10,7 @@ from RockPaperScissor.utils.logging import setup_logging
 from RockPaperScissor.game_cache.memory_cache import GameSessionCache, LLMCache
 from RockPaperScissor.repositories import Storage
 from RockPaperScissor.services import GameService, LLMService
-from RockPaperScissor.repositories.sql_storage import SQLStorage
+from RockPaperScissor.repositories.combined_storage import CombinedStorage
 
 # Setup logging
 logger = setup_logging()
@@ -27,9 +27,27 @@ async def lifespan(app: FastAPI):
     
     logger.info("Application starting up")
     
-    # Initialize storage and services
-    storage = SQLStorage()
-    await storage.initialize()  # This will create tables if they don't exist
+    # Initialize combined storage (S3 + SQL)
+    storage = CombinedStorage()
+    await storage.initialize()  # This will initialize SQL storage
+    
+    # Check S3 availability
+    try:
+        await storage.s3_storage.save_game_round({
+            "game_id": "test",
+            "user_id": "test",
+            "session_id": "test",
+            "user_move": "rock",
+            "ai_move": "paper",
+            "result": "lose",
+            "model_name": "test"
+        })
+        logger.info("S3 storage is available")
+    except Exception as e:
+        logger.warning(f"S3 storage is not available: {str(e)}")
+        storage.s3_available = False
+        logger.info("Using SQL as primary storage")
+    
     llm_service = LLMService(storage=storage)
     game_service = GameService(storage=storage)
     
