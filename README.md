@@ -70,51 +70,52 @@ This project is built for learning **ZenML**, reinforcement learning, and MLOps 
 ```plaintext
 RockPaperScissor/
 ├── RockPaperScissor/              # Main application package
-│   
-│───├── core/
-│   │   ├── environment/           # Game environment implementation (state transitions, round control)
-│   │   ├── agents/                # Strategy modules (supports Markov, Pattern, RL, etc.)
-│   │   ├── evaluation/            # Evaluation logic (rewards, win rates, etc.)
-│   │   └── ai_assist/             # AI move suggestion module (calls large language model)
+│   ├── app.py                     # Application entry point and FastAPI setup
+│   ├── config/                    # Configuration management
+│   │   └── database.py           # Database configuration settings
 │   │
-│   ├── repositories/              # Data access and persistence logic
-│   │   ├── model_repo.py          # Saving and loading of strategy models
-│   │   └── log_repo.py            # Game logging and record writing logic (connects to SQLite)
+│   ├── game_cache/               # In-memory caching module
+│   │   ├── memory_cache.py       # Game session and LLM cache implementations
+│   │   └── llm_cache.py          # LLM interaction caching
 │   │
-│   ├── router/                    # API routing layer
-│   │   └── game_routes.py         # Game endpoints: receive user moves, return results, control cache
+│   ├── models/                   # AI model implementations
+│   │   └── ai_models.py          # Different AI strategies (Markov, Pattern, etc.)
 │   │
-│   ├── cache/                     # In-memory caching module (uses deque to manage game sessions)
-│   │   └── memory_cache.py        # Provides interfaces for add / flush / init cache
+│   ├── repositories/             # Data access and persistence logic
+│   │   ├── storage.py           # Abstract storage interface
+│   │   ├── sql_storage.py       # SQLite storage implementation
+│   │   ├── s3_storage.py        # S3 storage implementation
+│   │   └── combined_storage.py  # Combined S3 and SQL storage implementation
 │   │
-│   ├── zenml_pipelines/           # ZenML management module
-│   │   ├── steps/                 # ZenML step wrappers (strategy evaluation, logging, comparison, etc.)
-│   │   │   ├── evaluation_steps.py  # Execute strategy evaluation + log_metric()
-│   │   │   ├── comparison_steps.py  # Compare performance across strategies
-│   │   │   └── log_steps.py         # Save strategy structure, version, and results as artifacts
-│   │   │
-│   │   ├── pipelines/             # ZenML pipeline configurations
-│   │   │   ├── evaluation_pipeline.py  # Strategy evaluation flow: load → evaluate → log
-│   │   │   └── comparison_pipeline.py  # Multi-strategy comparison flow
-│   │   │
-│   │   └── utils/                 # ZenML utility functions
-│   │       └── formatters.py      # Convert between dict and artifact formats, flatten results, etc.
+│   ├── routes/                   # API routing layer
+│   │   └── game.py              # Game endpoints and request handling
 │   │
-│   ├── database/                  # SQLite database initialization and schema management
-│   │   └── schema.sql             # Table definitions: game_logs / policy_logs
+│   ├── schemas/                  # Data validation and serialization
+│   │   └── game.py              # Pydantic models for request/response
 │   │
-│   └── app.py                    # Application entry point, includes cache initialization and router registration
+│   ├── services/                 # Business logic layer
+│   │   ├── game_service.py      # Game logic and state management
+│   │   └── llm_service.py       # LLM interaction handling
+│   │
+│   └── utils/                    # Utility functions
+│       └── logging.py           # Logging configuration
 │
-├── frontend/                      # Frontend project
-│   ├── index.html                 # Main HTML entry page
-│   ├── webpage.html               # Secondary HTML page
+├── data/                         # Data storage directory
+│   └── game_data.db             # SQLite database file
 │
-├── pyproject.toml                 # Poetry dependency management
-├── poetry.lock                    # Dependency lock file
-├── requirements.txt               # For Lambda dependencies
-├── .gitignore                     # Git ignore file
-├── README.md                      # Documentation
-└── .devcontainer                  # Container
+├── frontend/                     # Frontend project
+│   ├── index.html               # Main HTML entry page
+│   └── webpage.html             # Secondary HTML page
+│
+├── logs/                        # Application logs
+│   ├── app.log                 # General application logs
+│   └── error.log               # Error logs
+│
+├── pyproject.toml               # Poetry dependency management
+├── poetry.lock                  # Dependency lock file
+├── .env                        # Environment variables
+├── .gitignore                  # Git ignore file
+└── README.md                   # Documentation
 ```
 
 ### Git Workflow and Best Practices

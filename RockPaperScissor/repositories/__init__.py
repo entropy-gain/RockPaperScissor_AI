@@ -3,7 +3,7 @@
 from .storage import Storage, StorageError
 from .sql_storage import SQLStorage, SQLStorageError
 from .s3_storage import S3Storage, S3StorageError
-from .fallback_storage import FallbackStorage, FallbackStorageError
+from .combined_storage import CombinedStorage, CombinedStorageError
 
 __all__ = [
     'Storage',
@@ -12,6 +12,6 @@ __all__ = [
     'SQLStorageError',
     'S3Storage',
     'S3StorageError',
-    'FallbackStorage',
-    'FallbackStorageError',
+    'CombinedStorage',
+    'CombinedStorageError',
 ] 
