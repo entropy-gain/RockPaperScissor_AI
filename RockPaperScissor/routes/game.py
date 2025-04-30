@@ -1,30 +1,35 @@
 # backend/routes/game.py
-from fastapi import APIRouter, HTTPException
-from RockPaperScissor.services import GameService
-from RockPaperScissor.schemas.game import GameRequest, GameResponse
+from fastapi import APIRouter, HTTPException, Request
+from RockPaperScissor.services import GameService, LLMService
+from RockPaperScissor.schemas.game import GameRequest, GameResponse, GameSummary, LLMRequest
 from RockPaperScissor.utils.logging import setup_logging
+from RockPaperScissor.repositories import Storage
 
 # Set up logger
 logger = setup_logging()
 
 game_router = APIRouter()
+
+# Initialize services
+storage = Storage()
+game_service = GameService(storage=storage)
+llm_service = LLMService(storage)
     
 @game_router.post("/play")
-async def play_round(request: GameRequest):
+async def play_round(request: Request, game_request: GameRequest):
     """
     Play a round with the player's move.
     """
     try:
         # Log the request
-        logger.info(f"Play round request: {request.model_dump()}")
+        logger.info(f"Play round request: {game_request.model_dump()}")
 
-        # Create service instance
-        game_service = GameService()
+        # Get IP Address for future use
+        ip_address = request.client.host
+        logger.debug(f"Request from IP: {ip_address}")
 
         # Call service method to play the round
-        result = game_service.play_round(request)
-        
-        # Convert service result to response model
+        result = game_service.play_round(game_request)
         return result
     
     except ValueError as e:
@@ -40,66 +45,37 @@ async def play_round(request: GameRequest):
             detail="An error occurred while processing the round"
         )
 
-@game_router.get("/session/{session_id}/stats")
-async def get_session_stats(session_id: str):
+@game_router.post("/analyze")
+async def analyze_game_state(llm_request: LLMRequest):
     """
-    Get statistics for a specific session.
-    """
-    try:
-        game_service = GameService()
-        stats = game_service.get_session_stats(session_id)
-        return stats
-    except Exception as e:
-        logger.error(f"Error retrieving session stats: {str(e)}")
-        raise HTTPException(
-            status_code=500,
-            detail="An error occurred while retrieving session statistics"
-        )
-    
-@game_router.get("/user/{user_id}/stats")
-async def get_user_stats(user_id: str):
-    """
-    Get statistics for a specific user across all sessions.
+    Get LLM analysis of the current game state.
     """
     try:
-        game_service = GameService()
-        stats = game_service.get_user_statistics(user_id)
-        return stats
+        # Log the request
+        logger.info(f"Analyze request: {llm_request.model_dump()}")
+        
+        # Get LLM analysis directly from LLM service
+        analysis = llm_service.analyze_game_state(llm_request)
+        return {"analysis": analysis}
+        
     except Exception as e:
-        logger.error(f"Error retrieving user stats: {str(e)}")
+        logger.error(f"Error analyzing game state: {str(e)}")
         raise HTTPException(
             status_code=500,
-            detail="An error occurred while retrieving user statistics"
-        )
-    
-@game_router.get("/ai-performance")
-async def get_ai_performance():
-    """
-    Get performance statistics for all AI models.
-    """
-    try:
-        game_service = GameService()
-        ai_performance = game_service.get_ai_performance_stats()
-        return ai_performance
-    except Exception as e:
-        logger.error(f"Error retrieving AI performance: {str(e)}")
-        raise HTTPException(
-            status_code=500,
-            detail="An error occurred while retrieving AI performance data"
+            detail="An error occurred while analyzing the game state"
         )
 
-@game_router.get("/session/{session_id}/history")
-async def get_session_history(session_id: str, limit: int = 10):
+@game_router.post("/end")
+async def end_game(game_request: GameRequest):
     """
-    Get the history of rounds for a specific session.
+    End the current game session and get a summary.
     """
     try:
-        game_service = GameService()
-        history = game_service.get_session_history(session_id, limit)
-        return history
+        summary = game_service.end_game(game_request)
+        return summary
     except Exception as e:
-        logger.error(f"Error retrieving session history: {str(e)}")
+        logger.error(f"Error ending game: {str(e)}")
         raise HTTPException(
             status_code=500,
-            detail="An error occurred while retrieving session history"
+            detail="An error occurred while ending the game"
         )

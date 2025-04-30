@@ -1,12 +1,17 @@
-"""
-Repository package initialization for RockPaperScissor game.
-"""
-from .game_repository import GameRepository
-from .db import get_dynamodb_resource, get_dynamodb_client, create_tables_if_not_exist
+"""Storage implementations for the game."""
+
+from .storage import Storage, StorageError
+from .sql_storage import SQLStorage, SQLStorageError
+from .s3_storage import S3Storage, S3StorageError
+from .fallback_storage import FallbackStorage, FallbackStorageError
 
 __all__ = [
-    'GameRepository',
-    'get_dynamodb_resource',
-    'get_dynamodb_client',
-    'create_tables_if_not_exist'
-]
+    'Storage',
+    'StorageError',
+    'SQLStorage',
+    'SQLStorageError',
+    'S3Storage',
+    'S3StorageError',
+    'FallbackStorage',
+    'FallbackStorageError',
+] 

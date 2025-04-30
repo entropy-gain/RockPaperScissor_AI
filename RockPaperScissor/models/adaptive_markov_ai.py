@@ -34,9 +34,11 @@ class AdaptiveMarkovAI(BaseAI):
         # Initialize model state if None
         if model_state is None:
             model_state = {
+                "player_last_move": None,
+                "ai_last_move": None,
+                "last_result": None,
                 "markov_counts": np.ones((3, 3)) * self.smoothing,
                 "frequency_counts": np.ones(3) * self.smoothing,
-                "player_last_move": None,
                 "player_second_last_move": None,
                 "smoothing": self.smoothing,
                 "temperature": self.temperature,

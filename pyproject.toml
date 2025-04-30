@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "RockPaperScissor"
 version = "0.1.0"
-description = "A serverless Rock Paper Scissors AI game using FastAPI and AWS Lambda"
+description = "A serverless Rock Paper Scissors AI game"
 authors = ["Pepper-Knight <yiyiang.chi@gmail.com>"]
 
 [tool.poetry.dependencies]
@@ -12,6 +12,9 @@ mangum = "^0.14.0"
 uvicorn = "^0.15.0"
 pydantic = "^2.6.0"
 numpy = "^2.2.3"
+dotenv = "^0.9.9"
+huggingface-hub = "^0.30.2"
+aiosqlite = "^0.21.0"
 
 
 [tool.poetry.group.dev.dependencies]
