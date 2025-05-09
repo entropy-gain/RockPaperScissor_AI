@@ -23,6 +23,18 @@ class Storage(ABC):
         pass
     
     @abstractmethod
+    async def save_batch_game_rounds(self, game_data_list: List[Dict[str, Any]]) -> bool:
+        """Save multiple game rounds in a batch.
+        
+        Args:
+            game_data_list: List of game data to save
+            
+        Returns:
+            bool: True if all saves were successful, False otherwise
+        """
+        pass
+    
+    @abstractmethod
     async def save_llm_interaction(self, interaction_data: Dict[str, Any]) -> bool:
         """Save an LLM interaction.
         
@@ -31,6 +43,18 @@ class Storage(ABC):
             
         Returns:
             bool: True if save was successful, False otherwise
+        """
+        pass
+    
+    @abstractmethod
+    async def save_batch_llm_interactions(self, interaction_data_list: List[Dict[str, Any]]) -> bool:
+        """Save multiple LLM interactions in a batch.
+        
+        Args:
+            interaction_data_list: List of LLM interaction data to save
+            
+        Returns:
+            bool: True if all saves were successful, False otherwise
         """
         pass
     

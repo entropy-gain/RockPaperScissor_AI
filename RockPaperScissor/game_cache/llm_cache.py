@@ -3,7 +3,6 @@ LLM Cache module for storing LLM prompts and responses.
 """
 from typing import List
 import time
-import threading
 import asyncio
 import signal
 from ..utils.logging import setup_logging
@@ -29,12 +28,12 @@ class LLMCache:
         self.batch_timeout_sec = batch_timeout_sec
         self.last_flush_time = time.time()
         
-        # Thread safety
-        self.lock = threading.RLock()
-        self._flush_lock = threading.Lock()  # Lock for flush operations
+        # Async safety
+        self.lock = asyncio.Lock()
+        self._flush_lock = asyncio.Lock()  # Lock for flush operations
         self._is_flushing = False  # Flag to track if a flush is in progress
-        self._flush_event = threading.Event()  # Event to signal flush completion
-        self._shutdown_event = threading.Event()  # Event to signal shutdown
+        self._flush_event = asyncio.Event()  # Event to signal flush completion
+        self._shutdown_event = asyncio.Event()  # Event to signal shutdown
         
         # Start background flush task
         self._start_background_flush()
@@ -47,9 +46,7 @@ class LLMCache:
         def signal_handler(signum, frame):
             logger.info(f"Received signal {signum}, initiating graceful shutdown...")
             self._shutdown_event.set()
-            # Wait for flush to complete
-            self._flush_event.wait(timeout=10)  # Wait up to 10 seconds
-            logger.info("Shutdown complete")
+            logger.info("Shutdown signal sent")
         
         # Register handlers for common termination signals
         signal.signal(signal.SIGTERM, signal_handler)
@@ -81,7 +78,7 @@ class LLMCache:
         loop = asyncio.get_event_loop()
         self._flush_task = loop.create_task(periodic_flush())
     
-    def add_interaction(
+    async def add_interaction(
         self, 
         prompt: str, 
         response: str,
@@ -103,7 +100,7 @@ class LLMCache:
             user_id: Associated user ID
             metadata: Additional metadata about the interaction
         """
-        with self.lock:
+        async with self.lock:
             # Create interaction record
             interaction = LLMInteraction(
                 prompt=prompt,
@@ -134,12 +131,13 @@ class LLMCache:
             bool: Whether the flush was successful
         """
         # First check if a flush is already in progress
-        if not self._flush_lock.acquire(blocking=False):
+        if self._flush_lock.locked():
             logger.debug("Another flush operation is in progress, skipping")
             return False
 
+        await self._flush_lock.acquire()
         try:
-            with self.lock:
+            async with self.lock:
                 if not self.buffer:
                     return False
                 
@@ -172,14 +170,14 @@ class LLMCache:
                 else:
                     logger.error("Some LLM saves failed during batch flush")
                     # If any save failed, restore the data to buffer
-                    with self.lock:
+                    async with self.lock:
                         self.buffer.extend(buffer_copy)
                         self.buffer_size = buffer_size
             except Exception as e:
                 success = False
                 logger.error(f"LLM storage flush failed: {str(e)}")
                 # If failed, restore the data to buffer
-                with self.lock:
+                async with self.lock:
                     self.buffer.extend(buffer_copy)
                     self.buffer_size = buffer_size
             
@@ -202,7 +200,7 @@ class LLMCache:
                 pass
         
         # Wait for any ongoing flush to complete
-        self._flush_event.wait(timeout=10)  # Wait up to 10 seconds
+        await self._flush_event.wait()
         
         # Final flush of any remaining data
         if self.buffer:
@@ -216,25 +214,24 @@ class LLMCache:
     
     async def reset(self):
         """Reset all cache data asynchronously"""
-        with self.lock:
+        async with self.lock:
             self.buffer.clear()
             self.buffer_size = 0
             self.last_flush_time = time.time() 
             
-#--------------------------------temporary functions--------------------------------
-    async def force_flush(self) -> bool:
-        """Force flush all data in buffer asynchronously"""
-        with self.lock:
-            if not self.buffer:
-                logger.debug("No LLM records to flush")
-                return False
+    # async def force_flush(self) -> bool:
+    #     """Force flush all data in buffer asynchronously"""
+    #     async with self.lock:
+    #         if not self.buffer:
+    #             logger.debug("No LLM records to flush")
+    #             return False
             
-            logger.info("Force flushing all LLM records")
-            return await self.execute_batch_flush()
+    #         logger.info("Force flushing all LLM records")
+    #         return await self.execute_batch_flush()
     
-    def get_buffer_size(self) -> int:
-        """Get the number of records in the buffer"""
-        with self.lock:
-            return self.buffer_size
+    # async def get_buffer_size(self) -> int:
+    #     """Get the number of records in the buffer"""
+    #     async with self.lock:
+    #         return self.buffer_size
     
     

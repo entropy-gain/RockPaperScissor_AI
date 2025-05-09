@@ -174,3 +174,51 @@
 2025-04-10 11:10:36,253 - RockPaperScissor - ERROR - Error saving game: Could not connect to the endpoint URL: "http://localhost:8001/"
 2025-04-10 11:10:36,253 - RockPaperScissor - ERROR - Error saving game: Could not connect to the endpoint URL: "http://localhost:8001/"
 2025-04-10 11:10:36,253 - RockPaperScissor - ERROR - Error saving game: Could not connect to the endpoint URL: "http://localhost:8001/"
+2025-05-01 21:48:43,462 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:48:43,462 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:48:43,462 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:48:43,462 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:48:43,463 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:48:43,463 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:48:43,463 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:48:43,463 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:58:20,618 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:58:20,618 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:58:20,618 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:58:20,618 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:58:20,619 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:58:20,619 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:58:20,619 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:58:20,619 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-05 01:56:15,298 - RockPaperScissor - ERROR - Failed to save batch: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 01:56:15,298 - RockPaperScissor - ERROR - Failed to save batch: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 01:56:15,298 - RockPaperScissor - ERROR - Failed to save batch: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 01:56:15,299 - RockPaperScissor - ERROR - Error processing write queue: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 01:56:15,299 - RockPaperScissor - ERROR - Error processing write queue: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 01:56:15,299 - RockPaperScissor - ERROR - Error processing write queue: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 02:21:25,235 - RockPaperScissor - ERROR - Error during storage shutdown: '_asyncio.Task' object has no attribute 'set'
+2025-05-05 02:21:25,235 - RockPaperScissor - ERROR - Error during storage shutdown: '_asyncio.Task' object has no attribute 'set'
+2025-05-05 02:21:25,235 - RockPaperScissor - ERROR - Error during storage shutdown: '_asyncio.Task' object has no attribute 'set'
+2025-05-05 10:48:26,566 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:48:26,566 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:48:26,566 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:43,410 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:43,410 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:43,410 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:57,776 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:57,776 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:57,776 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:58:58,295 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:58:58,295 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:58:58,295 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 18:29:56,667 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 18:29:56,667 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 18:29:56,667 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id

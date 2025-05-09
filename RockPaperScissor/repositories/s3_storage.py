@@ -2,7 +2,7 @@
 
 import boto3
 import json
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 import uuid
 import asyncio
 import os
@@ -21,6 +21,15 @@ class S3Storage(Storage):
     
     def __init__(self):
         """Initialize S3 client using configuration from S3_CONFIG."""
+        self.s3: Optional[boto3.client] = None
+        self.bucket_name = S3_CONFIG["bucket_name"]
+        self._initialized = False
+    
+    async def initialize(self) -> None:
+        """Initialize S3 client asynchronously and verify connection."""
+        if self._initialized:
+            return
+            
         try:
             # Initialize S3 client with credentials from S3_CONFIG
             self.s3 = boto3.client(
@@ -30,15 +39,23 @@ class S3Storage(Storage):
                 aws_secret_access_key=S3_CONFIG["aws_secret_access_key"],
                 endpoint_url=S3_CONFIG["endpoint_url"]
             )
-            self.bucket_name = S3_CONFIG["bucket_name"]
             
-            # Verify connection
-            self.s3.head_bucket(Bucket=self.bucket_name)
+            # Verify connection asynchronously
+            await asyncio.get_event_loop().run_in_executor(
+                None,
+                lambda: self.s3.head_bucket(Bucket=self.bucket_name)
+            )
+            self._initialized = True
             logger.info(f"Successfully connected to S3 bucket: {self.bucket_name}")
             
         except Exception as e:
             logger.error(f"Failed to initialize S3 client: {str(e)}")
             raise S3StorageError(f"Failed to initialize S3 client: {str(e)}")
+    
+    def _ensure_initialized(self) -> None:
+        """Ensure S3 client is initialized before use."""
+        if not self._initialized:
+            raise S3StorageError("S3 client not initialized. Call initialize() first.")
     
     def _get_game_round_key(self, game_id: str) -> str:
         """Get S3 key for game round data.
@@ -72,6 +89,7 @@ class S3Storage(Storage):
         Returns:
             bool: True if save was successful, False otherwise
         """
+        self._ensure_initialized()
         try:
             key = self._get_game_round_key(game_data['game_id'])
             # Run S3 put_object in a thread pool to avoid blocking
@@ -99,6 +117,7 @@ class S3Storage(Storage):
         Returns:
             bool: True if save was successful, False otherwise
         """
+        self._ensure_initialized()
         try:
             key = self._get_llm_interaction_key(
                 interaction_data['game_id']
@@ -120,10 +139,22 @@ class S3Storage(Storage):
             return False
     
     def save_user_state(self, user_id: str, model_name: str, model_state: Dict[str, Any]) -> None:
-        """Not implemented for S3 storage."""
-        raise NotImplementedError("S3 storage does not support saving user states")
+        """Save user state is not supported in S3 storage.
+        
+        This method is intentionally not implemented as S3 storage is designed
+        for game rounds and LLM interactions only. Use SQLiteStorage for user state management.
+        
+        Args:
+            user_id: User ID
+            model_name: Model name
+            model_state: Model state data
+            
+        Raises:
+            S3StorageError: Always raised as this operation is not supported
+        """
+        raise S3StorageError("User state management is not supported in S3 storage. Use SQLiteStorage instead.")
     
     async def close(self) -> None:
         """Close S3 client connection."""
-        # S3 client doesn't need explicit closing
-        pass 
+        self._initialized = False
+        self.s3 = None 

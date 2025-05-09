@@ -24012,3 +24012,270 @@
 2025-04-10 20:16:16,696 - RockPaperScissor - INFO - Updated game c1f60584-a3de-4611-860e-757aea3ae0db for user test_user
 2025-04-10 20:16:16,696 - RockPaperScissor - INFO - Updated game c1f60584-a3de-4611-860e-757aea3ae0db for user test_user
 2025-04-10 20:16:16,696 - RockPaperScissor - INFO - Updated game c1f60584-a3de-4611-860e-757aea3ae0db for user test_user
+2025-05-01 21:48:43,462 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:48:43,462 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:48:43,462 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:48:43,462 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:48:43,463 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:48:43,463 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:48:43,463 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:48:43,463 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:58:20,618 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:58:20,618 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:58:20,618 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:58:20,618 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 21:58:20,619 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:58:20,619 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:58:20,619 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 21:58:20,619 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Database initialization failed: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-01 22:00:39,311 - RockPaperScissor - ERROR - Failed to initialize test database: threads can only be started once
+2025-05-05 01:31:24,461 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:31:24,461 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:31:24,461 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:35:02,975 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:35:02,975 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:35:02,975 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:35:02,975 - RockPaperScissor - INFO - Successfully saved batch of 1 items
+2025-05-05 01:35:02,975 - RockPaperScissor - INFO - Successfully saved batch of 1 items
+2025-05-05 01:35:02,975 - RockPaperScissor - INFO - Successfully saved batch of 1 items
+2025-05-05 01:35:02,976 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:35:02,976 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:35:02,976 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:47:04,757 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:47:04,757 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:47:04,757 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:47:05,759 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:47:05,759 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:47:05,759 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:48:32,038 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:48:32,038 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:48:32,038 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:48:33,041 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:48:33,041 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:48:33,041 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:48:49,840 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:48:49,840 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:48:49,840 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:49:27,523 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:49:27,523 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:49:27,523 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:49:28,527 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:49:28,527 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:49:28,527 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:51:05,679 - RockPaperScissor - INFO - Successfully saved batch of 2 items
+2025-05-05 01:51:05,679 - RockPaperScissor - INFO - Successfully saved batch of 2 items
+2025-05-05 01:51:05,679 - RockPaperScissor - INFO - Successfully saved batch of 2 items
+2025-05-05 01:51:05,680 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 01:51:05,680 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 01:51:05,680 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 01:52:52,259 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:52:52,259 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:52:52,259 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:53:12,527 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:53:12,527 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:53:12,527 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:53:13,531 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:53:13,531 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:53:13,531 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:53:51,462 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:53:51,462 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:53:51,462 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:53:52,463 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:53:52,463 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:53:52,463 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:54:07,649 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:54:07,649 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:54:07,649 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:54:22,263 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:54:22,263 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:54:22,263 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:54:23,266 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:54:23,266 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:54:23,266 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:54:37,153 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:54:37,153 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:54:37,153 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 01:54:38,157 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:54:38,157 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:54:38,157 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 01:56:15,298 - RockPaperScissor - ERROR - Failed to save batch: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 01:56:15,298 - RockPaperScissor - ERROR - Failed to save batch: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 01:56:15,298 - RockPaperScissor - ERROR - Failed to save batch: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 01:56:15,299 - RockPaperScissor - ERROR - Error processing write queue: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 01:56:15,299 - RockPaperScissor - ERROR - Error processing write queue: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 01:56:15,299 - RockPaperScissor - ERROR - Error processing write queue: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 01:56:16,302 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 01:56:16,302 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 01:56:16,302 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 02:06:14,711 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:06:14,711 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:06:14,711 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:06:15,713 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:06:15,713 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:06:15,713 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:06:55,649 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:06:55,649 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:06:55,649 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:06:56,652 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:06:56,652 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:06:56,652 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:08:35,302 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:08:35,302 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:08:35,302 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:08:36,305 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:08:36,305 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:08:36,305 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:09:12,424 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:09:12,424 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:09:12,424 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:09:13,426 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:09:13,426 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:09:13,426 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:10:32,512 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:10:32,512 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:10:32,512 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:10:33,517 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:10:33,517 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:10:33,517 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:16:04,315 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:16:04,315 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:16:04,315 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:16:05,320 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:16:05,320 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:16:05,320 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:20:44,703 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:20:44,703 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:20:44,703 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:20:45,706 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:20:45,706 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:20:45,706 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:21:24,231 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:21:24,231 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:21:24,231 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:21:25,235 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:21:25,235 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:21:25,235 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:21:25,235 - RockPaperScissor - ERROR - Error during storage shutdown: '_asyncio.Task' object has no attribute 'set'
+2025-05-05 02:21:25,235 - RockPaperScissor - ERROR - Error during storage shutdown: '_asyncio.Task' object has no attribute 'set'
+2025-05-05 02:21:25,235 - RockPaperScissor - ERROR - Error during storage shutdown: '_asyncio.Task' object has no attribute 'set'
+2025-05-05 02:22:08,629 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:22:08,629 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:22:08,629 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:22:09,633 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:22:09,633 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:22:09,633 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:37:31,599 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:37:31,599 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:37:31,599 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:37:32,604 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:37:32,604 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:37:32,604 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:37:33,605 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 02:37:33,605 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 02:37:33,605 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 02:38:03,539 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:38:03,539 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:38:03,539 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 02:38:04,540 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:38:04,540 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:38:04,540 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 02:38:05,543 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 02:38:05,543 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 02:38:05,543 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:47:31,369 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:47:31,369 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:47:31,369 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:47:31,370 - RockPaperScissor - INFO - Successfully saved 5 game rounds in batch
+2025-05-05 10:47:31,370 - RockPaperScissor - INFO - Successfully saved 5 game rounds in batch
+2025-05-05 10:47:31,370 - RockPaperScissor - INFO - Successfully saved 5 game rounds in batch
+2025-05-05 10:47:32,374 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:47:32,374 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:47:32,374 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:47:33,375 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:47:33,375 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:47:33,375 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:48:26,566 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:48:26,566 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:48:26,566 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:48:26,566 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:48:26,566 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:48:26,566 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:48:27,568 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:48:27,568 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:48:27,568 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:48:28,571 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:48:28,571 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:48:28,571 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:56:42,408 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:56:42,408 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:56:42,408 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:56:43,410 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:43,410 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:43,410 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:43,410 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:56:43,410 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:56:43,410 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:56:44,413 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:56:44,413 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:56:44,413 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:56:56,773 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:56:56,773 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:56:56,773 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:56:57,776 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:57,776 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:57,776 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:56:57,776 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:56:57,776 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:56:57,776 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:56:58,778 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:56:58,778 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:56:58,778 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:57:46,218 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:57:46,218 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:57:46,218 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:58:20,594 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:58:20,594 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:58:20,594 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:58:21,600 - RockPaperScissor - INFO - Successfully saved 50 game rounds in batch
+2025-05-05 10:58:21,600 - RockPaperScissor - INFO - Successfully saved 50 game rounds in batch
+2025-05-05 10:58:21,600 - RockPaperScissor - INFO - Successfully saved 50 game rounds in batch
+2025-05-05 10:58:21,600 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:58:21,600 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:58:21,600 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:58:22,598 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:58:22,598 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:58:22,598 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:58:57,294 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:58:57,294 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:58:57,294 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 10:58:58,295 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:58:58,295 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:58:58,295 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 10:58:58,296 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:58:58,296 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:58:58,296 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 10:58:59,297 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:58:59,297 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 10:58:59,297 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 11:00:26,705 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 11:00:26,705 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 11:00:26,705 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 18:29:55,663 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 18:29:55,663 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 18:29:55,663 - RockPaperScissor - INFO - Database tables created/verified successfully
+2025-05-05 18:29:56,667 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 18:29:56,667 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 18:29:56,667 - RockPaperScissor - ERROR - Failed to save batch game rounds: UNIQUE constraint failed: game_rounds.game_id
+2025-05-05 18:29:56,667 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 18:29:56,667 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 18:29:56,667 - RockPaperScissor - INFO - Closing storage...
+2025-05-05 18:29:57,671 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 18:29:57,671 - RockPaperScissor - INFO - Storage closed successfully
+2025-05-05 18:29:57,671 - RockPaperScissor - INFO - Storage closed successfully
