@@ -1,0 +1,17 @@
+[project]
+name = "rps-simple-demo"
+version = "0.1.0"
+description = "Simple Rock Paper Scissors Gradio demo for Hugging Face Spaces"
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = "^3.10"
+dependencies = [
+    "gradio (>=5.29.0,<6.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
