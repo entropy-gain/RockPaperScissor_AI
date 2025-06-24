@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  qwen-test:
+    build: .
+    ports:
+      - "7860:7860"
+    volumes:
+      - .:/app
+      - ./model_cache:/app/model_cache
+    environment:
+      - TRANSFORMERS_CACHE=/app/model_cache
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+      - MODEL_ID=Qwen/Qwen3-0.6B
+      - DEVICE=mps
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 6G
+    command: python app.py
+    
